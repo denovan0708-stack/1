@@ -67,20 +67,22 @@ body {
 .ivory-theme { background: var(--ivory) !important; transition: background 2.5s ease; }
 .ivory-text { color: var(--ivory-dark) !important; transition: color 1.5s ease; }
 
-/* 3. LOVE PARTICLES (SVG VERSION - FIX MERAH) */
+/* 3. LOVE PARTICLES (REVISI OPACITY) */
 .love-particle {
     position: fixed; bottom: -50px; 
     pointer-events: none; z-index: 5; 
     animation: loveRise 6s linear forwards; 
-    width: 25px; height: 25px; /* Ukuran hati */
+    width: 22px; height: 22px; 
+    /* Opacity rendah agar tidak menabrak teks */
+    opacity: 0.35; 
 }
 .love-particle svg {
     width: 100%; height: 100%;
-    fill: white; /* PAKSA WARNA PUTIH */
-    filter: drop-shadow(0 0 8px rgba(255,255,255,0.8)); /* Glow Putih */
+    fill: white;
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
 }
 
-@keyframes loveRise { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-110vh) translateX(var(--sway)) rotate(360deg); opacity: 0; } }
+@keyframes loveRise { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 20% { opacity: 0.35; } 100% { transform: translateY(-110vh) translateX(var(--sway)) rotate(360deg); opacity: 0; } }
 
 .ripple { position: fixed; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white; transform: translate(-50%,-50%) scale(0); pointer-events: none; animation: rippleExpand 1s forwards; z-index: 9998; }
 @keyframes rippleExpand { 0% { transform: translate(-50%,-50%) scale(0); opacity: 1; } 100% { transform: translate(-50%,-50%) scale(5); opacity: 0; } }
