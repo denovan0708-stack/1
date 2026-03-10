@@ -2,9 +2,23 @@
   --bg-pink: linear-gradient(-45deg, #ffc2d1, #ffd6e7, #e0c3fc, #ff99ac);
   --ivory: #fdfaf1;
   --ivory-dark: #6d5d4b;
+  --cursor-x: 50%;
+  --cursor-y: 50%;
 }
 
-/* 1. COUNTDOWN PAGE */
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+  margin: 0; padding: 0; height: 100vh;
+  display: flex; justify-content: center; align-items: center;
+  font-family: 'Alice', serif; background: var(--bg-pink);
+  background-size: 400% 400%; animation: pinkGradient 15s ease infinite; overflow: hidden;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="fill:white"><text y="15">🤍</text></svg>'), auto;
+}
+
+@keyframes pinkGradient { 0%, 100% { background-position: 0% 50% } 50% { background-position: 100% 50% } }
+
+/* 1. COUNTDOWN PAGE (WATER EFFECT) */
 #countdown-container {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: var(--bg-pink); background-size: 400% 400%;
@@ -13,79 +27,53 @@
     z-index: 20000; text-align: center; transition: opacity 1.5s ease;
 }
 
-#countdown-title { color: white; font-family: 'Alice', serif; margin-bottom: 25px; font-size: 1.3rem; letter-spacing: 2px; }
-.flip-clock { display: flex; gap: 12px; }
-.flip-unit { display: flex; flex-direction: column; align-items: center; }
+#countdown-container::after {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(255,255,255,0.4) 0%, transparent 15%);
+    pointer-events: none; mix-blend-mode: overlay; opacity: 0.8;
+}
 
-/* REVISI: UKURAN COUNTDOWN LEBIH KECIL */
+#countdown-title { color: white; font-family: 'Alice', serif; margin-bottom: 25px; font-size: 1.3rem; letter-spacing: 2px; position: relative; z-index: 20001; }
+.flip-clock { display: flex; gap: 10px; position: relative; z-index: 20001; }
 .flip-unit span {
     background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);
-    color: white; font-size: clamp(28px, 6vw, 45px); font-family: 'Montserrat', sans-serif;
-    font-weight: 600; padding: 10px 12px; border-radius: 10px; min-width: 65px; border: 1px solid rgba(255,255,255,0.3);
+    color: white; font-size: clamp(24px, 5vw, 40px); font-family: 'Montserrat', sans-serif;
+    font-weight: 600; padding: 12px 10px; border-radius: 12px; min-width: 60px; display: block;
+    border: 1px solid rgba(255,255,255,0.3);
 }
-.flip-unit label { color: white; font-size: 0.6rem; margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
+.flip-unit label { color: white; font-size: 0.6rem; margin-top: 8px; text-transform: uppercase; opacity: 0.8; }
 
-/* 2. MAIN APP STYLING */
-.site-start { opacity: 0; animation: siteFade 2.2s ease forwards; }
-@keyframes siteFade { 0% { opacity: 0; } 100% { opacity: 1; } }
+/* 2. MAIN CONTENT */
+#black-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 1.5s ease; }
+#page { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 10; }
+#intro-section { text-align: center; z-index: 100; }
+#gift-icon { font-size: clamp(100px, 25vw, 140px); cursor: pointer; user-select: none; transition: transform 0.3s ease; }
+#gift-icon:active { transform: scale(0.9); }
+#hint { margin-top: 15px; font-family: 'Montserrat', sans-serif; color: white; letter-spacing: 1px; font-size: 0.9rem; }
 
-body {
-  margin: 0; padding: 0; height: 100vh;
-  display: flex; justify-content: center; align-items: center;
-  font-family: 'Alice', serif; background: var(--bg-pink);
-  background-size: 400% 400%; animation: pinkGradient 15s ease infinite; overflow: hidden;
-}
+#message-section { position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+#text-container { min-height: 150px; display: flex; align-items: center; justify-content: center; margin-top: 60px; padding: 0 25px; }
+#text { font-family: 'Cormorant Upright', serif; font-size: clamp(22px, 5.5vw, 38px); color: white; text-align: center; line-height: 1.6; transition: all 1.2s ease; }
+.text-hidden { opacity: 0; transform: translateY(20px); filter: blur(10px); }
 
-@keyframes pinkGradient { 0%, 100% { background-position: 0% 50% } 50% { background-position: 100% 50% } }
-
-#black-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: black; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 1.5s ease;
-}
-
-#page { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
-#intro-section { z-index: 100; text-align: center; animation: introFade 2s ease forwards; animation-delay: 1s; opacity: 0; }
-@keyframes introFade { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
-
-#gift-icon { font-size: clamp(100px, 25vw, 140px); user-select: none; cursor: pointer; }
-#hint { margin-top: 10px; font-family: 'Montserrat', sans-serif; font-weight: 500; color: white !important; letter-spacing: 0.5px; opacity: 0.95; }
-
-.shake { animation: giftShake 0.4s ease-in-out; }
-@keyframes giftShake { 0%, 100% { transform: scale(1); } 25% { transform: rotate(-10deg); } 75% { transform: rotate(10deg); } }
-
-#message-section {
-  position: relative; z-index: 50; width: 100%; height: 100%;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-}
-
-/* REVISI: POSISI TEKS LEBIH TURUN */
-#text-container { min-height: 120px; display: flex; align-items: center; justify-content: center; margin-top: 80px; }
-
-#text {
-  font-family: 'Cormorant Upright', serif; font-size: clamp(24px, 6vw, 42px);
-  color: white; text-align: center; padding: 0 30px; line-height: 1.5;
-  transition: opacity 1.5s ease, filter 1.5s ease, transform 1.5s ease;
-}
-.text-hidden { opacity: 0; transform: translateY(20px); filter: blur(15px); }
-
-#cake-wrapper {
-  font-size: 80px; margin-top: 20px; opacity: 0; 
-  transform: translateY(20px) scale(0.9); transition: opacity 1.2s ease, transform 1.2s ease;
-}
-#cake-wrapper.show { opacity: 1; transform: translateY(0) scale(1); animation: breathing 3s ease-in-out infinite; }
+#cake-wrapper { font-size: 70px; margin-top: 20px; opacity: 0; transform: scale(0.8); transition: all 1.2s ease; }
+#cake-wrapper.show { opacity: 1; transform: scale(1); animation: breathing 3s ease-in-out infinite; }
 @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
-.btn-ivory {
-  font-family: 'Montserrat', sans-serif; padding: 14px 40px; border: none;
-  border-radius: 30px; background: var(--ivory-dark); color: var(--ivory);
-  font-weight: 600; margin-top: 35px; cursor: pointer; z-index: 10001;
-  transition: opacity 1.5s ease; opacity: 0;
-}
-
+.btn-ivory { font-family: 'Montserrat', sans-serif; padding: 12px 35px; border: none; border-radius: 25px; background: var(--ivory-dark); color: var(--ivory); font-weight: 600; margin-top: 30px; cursor: pointer; opacity: 0; transition: opacity 1.5s ease; }
 .ivory-theme { background: var(--ivory) !important; transition: background 2.5s ease; }
-.ivory-text { color: var(--ivory-dark) !important; transition: color 1.5s ease; }
+.ivory-text { color: var(--ivory-dark) !important; }
 
-.love-particle { position: fixed; bottom: -50px; color: white; pointer-events: none; z-index: 1; animation: loveRise 6s linear forwards; }
-@keyframes loveRise { 0% { transform: translateY(0) scale(0.5); opacity: 0; } 100% { transform: translateY(-110vh) translateX(var(--sway)) scale(1.2); opacity: 0; } }
-.ripple { position: fixed; width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.6); transform: translate(-50%,-50%) scale(0); pointer-events: none; animation: rippleExpand 1.2s ease-out forwards; z-index: 9998; }
-@keyframes rippleExpand { 0% { transform: translate(-50%,-50%) scale(0); opacity: 1; } 100% { transform: translate(-50%,-50%) scale(6); opacity: 0; } }
+/* REVISI: LOVE PARTICLES KONTRAS */
+.love-particle {
+    position: fixed; bottom: -50px; color: #ffffff; 
+    text-shadow: 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,182,193,0.6);
+    pointer-events: none; z-index: 5; animation: loveRise 6s linear forwards; font-size: 24px;
+}
+@keyframes loveRise { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-110vh) translateX(var(--sway)) rotate(360deg); opacity: 0; } }
+
+.ripple { position: fixed; width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.7); transform: translate(-50%,-50%) scale(0); pointer-events: none; animation: rippleExpand 1s ease-out forwards; z-index: 9998; }
+@keyframes rippleExpand { 0% { transform: translate(-50%,-50%) scale(0); opacity: 1; } 100% { transform: translate(-50%,-50%) scale(5); opacity: 0; } }
+
+.shake { animation: giftShake 0.4s ease-in-out; }
+@keyframes giftShake { 0%, 100% { transform: scale(1); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
