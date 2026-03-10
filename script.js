@@ -54,7 +54,7 @@ const story = [
   "Happy Birthday, Vallen.", "I'm really glad you exist.",
   "The world became a little brighter<br>the day you were born.",
   "Make a wish.", "Blow the candle.",
-  "I hope this year brings you even more happiness,beautiful memories,<br>and everything you deserve.",
+  "I hope this year brings you even more happiness, beautiful memories, and<br>everything you deserve.",
   "And that life surprises you<br>in the best possible ways.",
   "Before this page ends,<br>I just want to say something."
 ];
@@ -170,4 +170,5 @@ replayBtn.addEventListener("click", (e) => {
   overlay.style.pointerEvents = "auto";
   setTimeout(() => location.reload(), 1500);
 });
+
 
