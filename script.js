@@ -26,6 +26,10 @@ const timer = setInterval(() => {
         setTimeout(() => {
             countdownBox.style.display = "none";
             document.getElementById("page").style.display = "flex";
+            // Kado muncul perlahan (Fade In)
+            setTimeout(() => {
+                document.getElementById("intro-section").classList.add("visible");
+            }, 100);
         }, 1500); 
         return;
     }
@@ -53,22 +57,32 @@ const story = [
 ];
 
 let currentStep = 0; let giftClicks = 0; let isWaiting = false; let isFinal = false;
+let particleInterval; // Untuk menghentikan hati nanti
 
 window.addEventListener("mousedown", (e) => {
   if (isWaiting || isFinal || countdownBox.style.display !== "none") return;
+  
   if (document.getElementById("intro-section").contains(e.target)) {
     giftClicks++;
     document.getElementById("gift-icon").classList.add("shake");
     setTimeout(() => document.getElementById("gift-icon").classList.remove("shake"), 400);
     confetti({ particleCount: 150, spread: 70, origin: { x: e.clientX/innerWidth, y: e.clientY/innerHeight } });
+    
     if (giftClicks >= 3) {
-      document.getElementById("intro-section").style.display = "none";
-      document.getElementById("message-section").style.display = "flex";
-      document.getElementById("bgMusic").play().catch(()=>{});
-      renderStep();
+      isWaiting = true;
+      // Kado Fade Out cepat
+      document.getElementById("intro-section").classList.add("fade-out");
+      setTimeout(() => {
+        document.getElementById("intro-section").style.display = "none";
+        document.getElementById("message-section").style.display = "flex";
+        document.getElementById("bgMusic").play().catch(()=>{});
+        renderStep();
+        isWaiting = false;
+      }, 600);
     }
     return;
   }
+  
   if (document.getElementById("message-section").style.display === "flex" && e.target.id !== "replayBtn") {
     createRipple(e.clientX, e.clientY);
     if (currentStep === 11) {
@@ -92,7 +106,12 @@ function renderStep() {
 function nextStep() { if (currentStep < story.length - 1) { currentStep++; renderStep(); } }
 
 function startIvorySequence() {
-  isFinal = true; document.getElementById("message-section").style.opacity = "0";
+  isFinal = true; 
+  // HENTIKAN PARTIKEL HATI
+  clearInterval(particleInterval);
+  document.querySelectorAll('.love-particle').forEach(el => el.remove());
+
+  document.getElementById("message-section").style.opacity = "0";
   setTimeout(() => {
     document.getElementById("black-overlay").style.opacity = "1";
     setTimeout(() => {
@@ -130,8 +149,8 @@ function createRipple(x, y) {
   document.body.appendChild(r); setTimeout(() => r.remove(), 1000);
 }
 
-// REVISI: INTENSITAS KEMUNCULAN KURANGI (900ms)
-setInterval(() => {
+// SIMPAN INTERVAL KE VARIABLE AGAR BISA DIHENTIKAN
+particleInterval = setInterval(() => {
   const heart = document.createElement("div");
   heart.className = "love-particle";
   heart.innerHTML = `<svg viewBox="0 0 32 32"><path d="M16 28.5L13.8 26.4C6.4 19.7 1.5 15.3 1.5 10C1.5 5.6 4.9 2.1 9.3 2.1C11.8 2.1 14.1 3.2 15.8 5.1C17.5 3.2 19.8 2.1 22.3 2.1C26.7 2.1 30.1 5.6 30.1 10C30.1 15.3 25.2 19.7 17.8 26.4L16 28.5Z"/></svg>`;
