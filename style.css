@@ -72,11 +72,16 @@ body {
 .ivory-theme { background: var(--ivory) !important; transition: background 2.5s ease; }
 .ivory-text { color: var(--ivory-dark) !important; transition: color 1.5s ease; }
 
-/* 3. LOVE PARTICLES (WHITE GLOW) */
+/* 3. LOVE PARTICLES (WHITE FONT GLOW) */
 .love-particle {
-    position: fixed; bottom: -50px; color: #ffffff; 
-    text-shadow: 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,182,193,0.6);
-    pointer-events: none; z-index: 5; animation: loveRise 6s linear forwards; font-size: 24px;
+    position: fixed; bottom: -50px; 
+    /* REVISI: PAKSA WARNA PUTIH */
+    color: #ffffff !important; 
+    /* REVISI: SHADOW PUTIH KUAT AGAR TERLIHAT DI HP */
+    text-shadow: 0 0 10px rgba(255,255,255,1), 0 0 20px rgba(255,255,255,0.8);
+    pointer-events: none; z-index: 5; animation: loveRise 6s linear forwards; 
+    font-size: 28px; /* Sedikit diperbesar */
+    font-family: Arial, sans-serif; /* Gunakan font standar agar simbol teks seragam */
 }
 @keyframes loveRise { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-110vh) translateX(var(--sway)) rotate(360deg); opacity: 0; } }
 
