@@ -17,7 +17,7 @@ window.addEventListener('touchmove', updateRipple, { passive: true });
 // ============================= 
 // 2. COUNTDOWN SYSTEM
 // ============================= 
-const targetDate = new Date("March 10, 2026 14:43:00").getTime();
+const targetDate = new Date("March 10, 2026 14:50:00").getTime();
 
 const timer = setInterval(() => {
     const now = new Date().getTime();
@@ -159,7 +159,11 @@ function createRipple(x, y) {
 setInterval(() => {
   const heart = document.createElement("div");
   heart.className = "love-particle";
-  heart.innerHTML = "♥";
+  
+  // REVISI: PAKAI SIMBOL TEKS (TRANSPARAN) AGAR HP TIDAK MERUBAH JADI MERAH
+  // Gunakan ♡ (transparan) atau ❤&#xFE0E; (solid tapi dipaksa teks)
+  heart.innerHTML = "♡"; 
+  
   heart.style.left = Math.random() * 100 + "vw";
   heart.style.setProperty('--sway', (Math.random() - 0.5) * 300 + "px");
   document.body.appendChild(heart);
