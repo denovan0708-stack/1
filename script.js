@@ -1,7 +1,7 @@
 // ============================= 
 // 1. COUNTDOWN SYSTEM (LOCK)
 // ============================= 
-const targetDate = new Date("May 14, 2026 00:00:00").getTime();
+const targetDate = new Date("March 1, 2026 00:00:00").getTime();
 
 const countdownTimer = setInterval(() => {
     const now = new Date().getTime();
@@ -169,4 +169,5 @@ replayBtn.addEventListener("click", (e) => {
   overlay.style.opacity = "1";
   overlay.style.pointerEvents = "auto";
   setTimeout(() => location.reload(), 1500);
+
 });
