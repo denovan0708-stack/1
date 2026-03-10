@@ -14,7 +14,7 @@ window.addEventListener('touchmove', moveEffect, { passive: true });
 // ============================= 
 // 2. COUNTDOWN SYSTEM
 // ============================= 
-const targetDate = new Date("March 10, 2026 14:25:00").getTime();
+const targetDate = new Date("March 10, 2026 14:30:00").getTime();
 
 const timer = setInterval(() => {
     const now = new Date().getTime();
@@ -174,3 +174,4 @@ document.getElementById("replayBtn").addEventListener("click", (e) => {
     document.getElementById("black-overlay").style.opacity = "1";
     setTimeout(() => location.reload(), 1200);
 });
+
