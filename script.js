@@ -50,7 +50,7 @@ const story = [
   "Hey, Vallen.", "I made something for you.",
   "There are so many days in a lifetime...", "but this one matters a little more.",
   "Because exactly <b>21 years ago</b>,<br>someone special was born.",
-  "Someone named<br><b>Vallen Kalonia</b>.", "And today is the day<br>the world first met you.",
+  "Someone named<br><b>Vallen Kalonia</b>.", "And today… we celebrate you.",
   "Happy Birthday, Vallen.", "I'm really glad you exist.",
   "The world became a little brighter<br>the day you were born.",
   "Make a wish.", "Blow the candle.",
@@ -169,5 +169,4 @@ replayBtn.addEventListener("click", (e) => {
   overlay.style.opacity = "1";
   overlay.style.pointerEvents = "auto";
   setTimeout(() => location.reload(), 1500);
-
 });
