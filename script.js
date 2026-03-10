@@ -1,22 +1,9 @@
-// ============================= 
-// 1. WATER RIPPLE SYSTEM
-// ============================= 
 const countdownBox = document.getElementById("countdown-container");
-function updateRipple(e) {
-    if (countdownBox.style.display !== "none") {
-        const x = e.touches ? e.touches[0].clientX : e.clientX;
-        const y = e.touches ? e.touches[0].clientY : e.clientY;
-        countdownBox.style.setProperty('--cursor-x', x + 'px');
-        countdownBox.style.setProperty('--cursor-y', y + 'px');
-    }
-}
-window.addEventListener('mousemove', updateRipple);
-window.addEventListener('touchmove', updateRipple);
+const targetDate = new Date("March 10, 2026 15:30:00").getTime();
+let particleInterval;
+let stopAllParticles = false;
 
-// ============================= 
-// 2. COUNTDOWN SYSTEM
-// ============================= 
-const targetDate = new Date("March 10, 2026 14:06:00").getTime();
+// 1. COUNTDOWN
 const timer = setInterval(() => {
     const now = new Date().getTime();
     const diff = targetDate - now;
@@ -26,7 +13,6 @@ const timer = setInterval(() => {
         setTimeout(() => {
             countdownBox.style.display = "none";
             document.getElementById("page").style.display = "flex";
-            // Kado muncul perlahan (Fade In)
             setTimeout(() => {
                 document.getElementById("intro-section").classList.add("visible");
             }, 100);
@@ -39,15 +25,13 @@ const timer = setInterval(() => {
     document.getElementById("seconds").innerText = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
 }, 1000);
 
-// ============================= 
-// 3. STORY LOGIC
-// ============================= 
+// 2. STORY LOGIC
 const textDisplay = document.getElementById("text");
 const story = [
   "Hey, Vallen.", "I made something for you.",
   "There are so many days in a lifetime...", "but this one matters a little more.",
   "Because exactly <b>21 years ago</b>,<br>someone special was born.",
-  "Someone named<br><b>Vallen Kalonia</b>.", "And today… we celebrate you.",
+  "Someone named<br><b>Vallen Kalonia</b>.", "And today… we celebrate you!",
   "Happy Birthday, Vallen.", "I'm really glad you exist.",
   "The world became a little brighter<br>the day you were born.",
   "Make a wish.", "Blow the candle.",
@@ -57,7 +41,6 @@ const story = [
 ];
 
 let currentStep = 0; let giftClicks = 0; let isWaiting = false; let isFinal = false;
-let particleInterval; // Untuk menghentikan hati nanti
 
 window.addEventListener("mousedown", (e) => {
   if (isWaiting || isFinal || countdownBox.style.display !== "none") return;
@@ -70,7 +53,6 @@ window.addEventListener("mousedown", (e) => {
     
     if (giftClicks >= 3) {
       isWaiting = true;
-      // Kado Fade Out cepat
       document.getElementById("intro-section").classList.add("fade-out");
       setTimeout(() => {
         document.getElementById("intro-section").style.display = "none";
@@ -78,7 +60,7 @@ window.addEventListener("mousedown", (e) => {
         document.getElementById("bgMusic").play().catch(()=>{});
         renderStep();
         isWaiting = false;
-      }, 600);
+      }, 800);
     }
     return;
   }
@@ -103,11 +85,12 @@ function renderStep() {
   else cake.classList.remove("show");
   setTimeout(() => { textDisplay.innerHTML = story[currentStep]; textDisplay.classList.remove("text-hidden"); isWaiting = false; }, 1200);
 }
+
 function nextStep() { if (currentStep < story.length - 1) { currentStep++; renderStep(); } }
 
 function startIvorySequence() {
   isFinal = true; 
-  // HENTIKAN PARTIKEL HATI
+  stopAllParticles = true;
   clearInterval(particleInterval);
   document.querySelectorAll('.love-particle').forEach(el => el.remove());
 
@@ -115,10 +98,12 @@ function startIvorySequence() {
   setTimeout(() => {
     document.getElementById("black-overlay").style.opacity = "1";
     setTimeout(() => {
-      document.getElementById("body-bg").classList.add("ivory-theme");
+      document.body.classList.add("ivory-theme");
       document.getElementById("black-overlay").style.opacity = "0";
-      textDisplay.innerHTML = ""; document.getElementById("message-section").style.opacity = "1";
+      textDisplay.innerHTML = ""; 
+      document.getElementById("message-section").style.opacity = "1";
       document.getElementById("cake-wrapper").classList.remove("show");
+      
       let charIdx = 0; const finalMsg = "thank you for being here.";
       function typeText() {
         if (charIdx < finalMsg.length) {
@@ -131,8 +116,9 @@ function startIvorySequence() {
               textDisplay.innerHTML = '<span class="ivory-text" style="font-weight:600">Happy Birthday, Vallen.</span>';
               textDisplay.classList.remove("text-hidden");
               setTimeout(() => {
-                document.getElementById("replayBtn").style.display = "block";
-                setTimeout(() => document.getElementById("replayBtn").style.opacity = "1", 100);
+                const btn = document.getElementById("replayBtn");
+                btn.style.display = "block";
+                setTimeout(() => btn.style.opacity = "1", 100);
               }, 1500);
             }, 1500);
           }, 3000);
@@ -149,8 +135,8 @@ function createRipple(x, y) {
   document.body.appendChild(r); setTimeout(() => r.remove(), 1000);
 }
 
-// SIMPAN INTERVAL KE VARIABLE AGAR BISA DIHENTIKAN
 particleInterval = setInterval(() => {
+  if (stopAllParticles) return;
   const heart = document.createElement("div");
   heart.className = "love-particle";
   heart.innerHTML = `<svg viewBox="0 0 32 32"><path d="M16 28.5L13.8 26.4C6.4 19.7 1.5 15.3 1.5 10C1.5 5.6 4.9 2.1 9.3 2.1C11.8 2.1 14.1 3.2 15.8 5.1C17.5 3.2 19.8 2.1 22.3 2.1C26.7 2.1 30.1 5.6 30.1 10C30.1 15.3 25.2 19.7 17.8 26.4L16 28.5Z"/></svg>`;
@@ -161,3 +147,14 @@ particleInterval = setInterval(() => {
 }, 900);
 
 document.getElementById("replayBtn").addEventListener("click", () => location.reload());
+
+window.addEventListener('mousemove', (e) => {
+    countdownBox.style.setProperty('--cursor-x', e.clientX + 'px');
+    countdownBox.style.setProperty('--cursor-y', e.clientY + 'px');
+});
+
+// Touch support for ripple
+window.addEventListener('touchmove', (e) => {
+    countdownBox.style.setProperty('--cursor-x', e.touches[0].clientX + 'px');
+    countdownBox.style.setProperty('--cursor-y', e.touches[0].clientY + 'px');
+});
