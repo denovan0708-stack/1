@@ -130,16 +130,15 @@ function createRipple(x, y) {
   document.body.appendChild(r); setTimeout(() => r.remove(), 1000);
 }
 
-// LOVE PARTICLES GENERATOR (SVG VERSION)
+// REVISI: INTENSITAS KEMUNCULAN KURANGI (900ms)
 setInterval(() => {
   const heart = document.createElement("div");
   heart.className = "love-particle";
-  // Memasukkan gambar SVG hati agar tidak bisa dirubah warnanya oleh HP
   heart.innerHTML = `<svg viewBox="0 0 32 32"><path d="M16 28.5L13.8 26.4C6.4 19.7 1.5 15.3 1.5 10C1.5 5.6 4.9 2.1 9.3 2.1C11.8 2.1 14.1 3.2 15.8 5.1C17.5 3.2 19.8 2.1 22.3 2.1C26.7 2.1 30.1 5.6 30.1 10C30.1 15.3 25.2 19.7 17.8 26.4L16 28.5Z"/></svg>`;
   heart.style.left = Math.random() * 100 + "vw";
   heart.style.setProperty('--sway', (Math.random() - 0.5) * 300 + "px");
   document.body.appendChild(heart);
   setTimeout(() => heart.remove(), 6000);
-}, 450);
+}, 900);
 
 document.getElementById("replayBtn").addEventListener("click", () => location.reload());
