@@ -1,5 +1,6 @@
 :root {
-  --bg-pink: linear-gradient(-45deg, #ffc2d1, #ffd6e7, #e0c3fc, #ff99ac);
+  /* REVISI WARNA: Ungu dijinakkan ke Soft Lavender */
+  --bg-pink: linear-gradient(135deg, #ffb3c1, #ffcad7, #d4b3f0, #ff99ac, #e2c0ff);
   --ivory: #fdfaf1;
   --ivory-dark: #6d5d4b;
   --cursor-x: 50%;
@@ -14,54 +15,66 @@ body {
   font-family: 'Alice', serif; 
   background: var(--bg-pink);
   background-size: 400% 400%; 
-  animation: pinkGradient 12s ease infinite; 
+  /* Gerakan gradasi lebih abstrak */
+  animation: abstractGradient 15s ease infinite; 
   overflow: hidden;
 }
 
-@keyframes pinkGradient {
-  0% { background-position: 0% 50% } 50% { background-position: 100% 50% } 100% { background-position: 0% 50% }
+@keyframes abstractGradient {
+  0% { background-position: 0% 0% }
+  25% { background-position: 100% 50% }
+  50% { background-position: 50% 100% }
+  75% { background-position: 0% 50% }
+  100% { background-position: 0% 0% }
 }
 
-/* 1. COUNTDOWN PAGE */
+/* 1. COUNTDOWN PAGE (FIXED HORIZONTAL) */
 #countdown-container {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: var(--bg-pink); background-size: 400% 400%;
-    animation: pinkGradient 12s ease infinite;
+    animation: abstractGradient 15s ease infinite;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     z-index: 20000; text-align: center; transition: opacity 1.5s ease;
 }
 
 #countdown-container::after {
     content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(255,255,255,0.45) 0%, transparent 18%);
-    pointer-events: none; mix-blend-mode: overlay; opacity: 1;
+    background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(255,255,255,0.4), transparent 20%);
+    pointer-events: none; mix-blend-mode: overlay;
 }
 
 #countdown-title { color: white; font-family: 'Alice', serif; margin-bottom: 25px; font-size: 1.3rem; letter-spacing: 2px; position: relative; z-index: 20001; }
-.flip-clock { display: flex; gap: 12px; position: relative; z-index: 20001; }
+
+/* FIX: Countdown tetap Horizontal */
+.flip-clock { display: flex; flex-direction: row; gap: 12px; position: relative; z-index: 20001; }
+.flip-unit { display: flex; flex-direction: column; align-items: center; }
 .flip-unit span {
     background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);
     color: white; font-size: 35px; font-family: 'Montserrat', sans-serif;
-    font-weight: 600; padding: 10px; border-radius: 10px; min-width: 65px; display: block; border: 1px solid rgba(255,255,255,0.3);
+    font-weight: 600; padding: 10px; border-radius: 10px; min-width: 65px; display: block; 
+    border: 1px solid rgba(255,255,255,0.3); text-align: center;
 }
-.flip-unit label { color: white; font-size: 0.6rem; margin-top: 8px; text-transform: uppercase; }
+.flip-unit label { color: white; font-size: 0.6rem; margin-top: 8px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; }
 
-/* 2. MAIN APP CONTENT */
+/* 2. MAIN CONTENT */
 #black-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 1.5s ease; }
-#page { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
 
-/* REVISI: KADO FADE IN PERLAHAN */
-#intro-section { z-index: 100; text-align: center; opacity: 0; transition: opacity 2s ease; }
-#intro-section.visible { opacity: 1; }
-/* REVISI: KADO FADE OUT CEPAT */
-#intro-section.fade-out { opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
+#page { width: 100%; height: 100%; display: none; justify-content: center; align-items: center; }
+
+#intro-section { 
+    z-index: 100; text-align: center; 
+    opacity: 0; 
+    transition: opacity 2s ease-in-out; 
+    pointer-events: none;
+}
+#intro-section.visible { opacity: 1; pointer-events: auto; }
+#intro-section.fade-out { opacity: 0; pointer-events: none; transition: opacity 0.8s ease-in-out; }
 
 #gift-icon { font-size: 120px; user-select: none; cursor: pointer; transition: transform 0.3s; }
-#gift-icon:active { transform: scale(0.9); }
-#hint { margin-top: 10px; font-family: 'Montserrat', sans-serif; color: white; opacity: 0.8; }
+#hint { margin-top: 15px; font-family: 'Montserrat', sans-serif; color: white; opacity: 0.9; letter-spacing: 1px; font-size: 0.9rem; }
 
-#message-section { position: relative; z-index: 50; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-#text-container { min-height: 120px; display: flex; align-items: center; justify-content: center; margin-top: 80px; padding: 0 20px; }
+#message-section { position: relative; z-index: 50; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; }
+#text-container { min-height: 120px; display: flex; align-items: center; justify-content: center; margin-top: 50px; padding: 0 25px; }
 #text { font-family: 'Cormorant Upright', serif; font-size: 32px; color: white; text-align: center; line-height: 1.5; transition: all 1.2s ease; }
 .text-hidden { opacity: 0; transform: translateY(20px); filter: blur(12px); }
 
@@ -69,17 +82,16 @@ body {
 #cake-wrapper.show { opacity: 1; animation: breathing 3s ease-in-out infinite; }
 @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
-.btn-ivory { font-family: 'Montserrat', sans-serif; padding: 14px 40px; border: none; border-radius: 30px; background: var(--ivory-dark); color: var(--ivory); font-weight: 600; margin-top: 35px; cursor: pointer; opacity: 0; transition: opacity 1.5s ease; }
+/* BUTTON REPLAY */
+.btn-ivory { font-family: 'Montserrat', sans-serif; padding: 14px 40px; border: none; border-radius: 30px; background: var(--ivory-dark); color: var(--ivory); font-weight: 600; margin-top: 35px; cursor: pointer; opacity: 0; transition: opacity 1.5s ease; display: none; }
+
 .ivory-theme { background: var(--ivory) !important; animation: none !important; }
 .ivory-text { color: var(--ivory-dark) !important; transition: color 1.5s ease; }
 
-/* 3. LOVE PARTICLES (LOW OPACITY) */
+/* 3. LOVE PARTICLES */
 .love-particle {
-    position: fixed; bottom: -50px; 
-    pointer-events: none; z-index: 5; 
-    animation: loveRise 6s linear forwards; 
-    width: 22px; height: 22px; 
-    opacity: 0.35; 
+    position: fixed; bottom: -50px; pointer-events: none; z-index: 5; 
+    animation: loveRise 6s linear forwards; width: 22px; height: 22px; opacity: 0.35; 
 }
 .love-particle svg { width: 100%; height: 100%; fill: white; filter: drop-shadow(0 0 5px rgba(255,255,255,0.5)); }
 
