@@ -35,7 +35,7 @@ const story = [
   "Make a wish.", "Blow the candle.",
   "I hope this year brings you even more happiness, beautiful memories, and everything you deserve.",
   "And that life surprises you in the best possible ways.",
-  "Before this page ends, I just want to say something."
+  "Before this page ends, let me just say something."
 ];
 
 let currentStep = 0; let giftClicks = 0; let isWaiting = false; let isFinal = false;
@@ -159,6 +159,7 @@ window.addEventListener('touchmove', (e) => {
     countdownBox.style.setProperty('--cursor-x', e.touches[0].clientX + 'px');
     countdownBox.style.setProperty('--cursor-y', e.touches[0].clientY + 'px');
 });
+
 
 
 
