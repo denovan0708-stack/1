@@ -30,8 +30,8 @@ const story = [
   "There are so many days in a lifetime...", "but this one matters a little more.",
   "Because exactly <b>21 years ago</b>,<br>someone special was born.",
   "Someone named<br><b>Vallen Kalonia</b>.", "And today… we celebrate you!",
-  "Happy Birthday, Vallen.", "I'm really glad you exist.",
-  "The world became a little brighter<br>the day you were born.",
+  "Happy Birthday, Vallen.", "I’m so glad I get to know you",
+  "May today be a reminder of how much you are valued and how much you matter.",
   "Make a wish.", "Blow the candle.",
   "I hope this year brings you even more happiness, beautiful memories, and everything you deserve.",
   "And that life surprises you in the best possible ways.",
@@ -159,6 +159,7 @@ window.addEventListener('touchmove', (e) => {
     countdownBox.style.setProperty('--cursor-x', e.touches[0].clientX + 'px');
     countdownBox.style.setProperty('--cursor-y', e.touches[0].clientY + 'px');
 });
+
 
 
 
