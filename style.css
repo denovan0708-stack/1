@@ -1,5 +1,5 @@
 :root {
-  --bg-ocean: linear-gradient(135deg, #a2d2ff, #48cae4, #00b4d8, #0077b6, #023e8a);
+  --bg-pink: linear-gradient(135deg, #ffb3c1, #ffcad7, #d4b3f0, #ff99ac, #e2c0ff);
   --ivory: #fdfaf1;
   --ivory-dark: #6d5d4b;
   --cursor-x: 50%;
@@ -108,5 +108,6 @@ body {
 @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 @keyframes giftShake { 0%, 100% { transform: scale(1); } 25% { transform: rotate(-10deg); } 75% { transform: rotate(10deg); } }
 .shake { animation: giftShake 0.4s ease-in-out; }
+
 
 
