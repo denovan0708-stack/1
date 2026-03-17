@@ -27,7 +27,7 @@ const timer = setInterval(() => {
 const textDisplay = document.getElementById("text");
 const story = [
   "Hey, Vallen.", "Here is something for you.",
-  "There are so many days in a lifetime...", "but this one matters a little more.",
+  "There are so many days in a lifetime...", "and this one matters a little more.",
   "Because exactly <b>21 years ago</b>,<br>someone special was born.",
   "Someone named<br><b>Vallen Kalonia</b>.", "And today… we celebrate you!",
   "Happy Birthday, Vallen.", "I’m so glad I get to know you",
