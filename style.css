@@ -16,7 +16,6 @@ body {
   background-size: 400% 400%; 
   animation: abstractGradient 15s ease infinite; 
   overflow: hidden;
-  /* Transisi Closing 1.5 detik */
   transition: opacity 1.5s ease-in-out; 
   opacity: 1;
 }
@@ -70,11 +69,11 @@ body {
 
 #message-section { 
     position: relative; z-index: 50; width: 100%; height: 100%; 
-    display: none; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 10vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
 
 #text-container { 
-    width: 100%; max-width: 600px;
+    width: 100%; max-width: 600px; min-height: 150px; /* Menjaga ruang teks tetap stabil */
     display: flex; flex-direction: column; align-items: center; justify-content: center; 
     padding: 0 25px; text-align: center; 
 }
@@ -85,29 +84,44 @@ body {
 }
 .text-hidden { opacity: 0 !important; transform: translateY(15px); filter: blur(10px); }
 
-#cake-wrapper { font-size: 80px; margin-top: 25px; opacity: 0; height: 0; overflow: hidden; transition: all 1.2s ease; }
-#cake-wrapper.show { opacity: 1; height: auto; animation: breathing 3s ease-in-out infinite; }
-
-/* Tombol Replay di posisi ideal (dibawah teks) */
-.btn-ivory { 
-    font-family: 'Montserrat', sans-serif; padding: 12px 35px; border: none; border-radius: 30px; 
-    background: var(--ivory-dark); color: var(--ivory); font-weight: 500; font-size: 0.8rem;
-    cursor: pointer; opacity: 0; transition: opacity 2s ease; display: none;
-    letter-spacing: 1px; margin-top: 35px;
+/* --- PERBAIKAN CAKE: PURE FADE IN/OUT TANPA JUMPING --- */
+#cake-wrapper { 
+    font-size: 80px; 
+    margin-top: 30px; 
+    opacity: 0; 
+    visibility: hidden; /* Mencegah klik saat tidak terlihat */
+    transition: opacity 1.5s ease, visibility 1.5s; 
+    display: block; /* Tetap di layout tapi transparan */
 }
 
-.ivory-theme { background: var(--ivory) !important; animation: none !important; }
-.ivory-text { color: var(--ivory-dark) !important; opacity: 1 !important; filter: none !important; transform: none !important; }
+#cake-wrapper.show { 
+    opacity: 1; 
+    visibility: visible;
+    animation: breathing 3s ease-in-out infinite; 
+}
 
-/* 3. LOVE PARTICLES & RIPPLE */
+/* 3. BUTTON & THEMES */
+.btn-ivory { 
+    font-family: 'Montserrat', sans-serif; padding: 10px 28px; 
+    border: 1px solid var(--ivory-dark); background: transparent; 
+    color: var(--ivory-dark); border-radius: 2px; font-size: 0.7rem;
+    text-transform: uppercase; letter-spacing: 3px;
+    cursor: pointer; opacity: 0; transition: all 0.8s ease; 
+    display: none; margin-top: 50px;
+}
+.btn-ivory:hover { background: var(--ivory-dark); color: var(--ivory); }
+
+.ivory-theme { background: var(--ivory) !important; animation: none !important; }
+.ivory-text { color: var(--ivory-dark) !important; opacity: 1 !important; filter: none !important; transform: none !important; transition: opacity 1s ease; }
+
+/* 4. ANIMATIONS */
 .love-particle { position: fixed; bottom: -50px; pointer-events: none; z-index: 5; animation: loveRise 6s linear forwards; width: 22px; height: 22px; opacity: 0.35; }
 .love-particle svg { width: 100%; height: 100%; fill: white; }
 @keyframes loveRise { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: 0.35; } 100% { transform: translateY(-110vh) translateX(var(--sway)); opacity: 0; } }
-.ripple { position: fixed; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white; transform: translate(-50%,-50%) scale(0); pointer-events: none; animation: rippleExpand 1s forwards; z-index: 9998; }
+
+.ripple { position: fixed; width: 20px; height: 20px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.5); transform: translate(-50%,-50%) scale(0); pointer-events: none; animation: rippleExpand 1s forwards; z-index: 9998; }
 @keyframes rippleExpand { 0% { transform: translate(-50%,-50%) scale(0); opacity: 1; } 100% { transform: translate(-50%,-50%) scale(5); opacity: 0; } }
+
 @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 @keyframes giftShake { 0%, 100% { transform: scale(1); } 25% { transform: rotate(-10deg); } 75% { transform: rotate(10deg); } }
 .shake { animation: giftShake 0.4s ease-in-out; }
-
-
-
