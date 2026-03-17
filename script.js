@@ -3,7 +3,6 @@ const targetDate = new Date("March 11, 2026 14:15:00").getTime();
 let particleInterval;
 let stopAllParticles = false;
 
-// 1. COUNTDOWN
 const timer = setInterval(() => {
     const now = new Date().getTime();
     const diff = targetDate - now;
@@ -23,16 +22,15 @@ const timer = setInterval(() => {
     document.getElementById("seconds").innerText = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
 }, 1000);
 
-// 2. STORY LOGIC
 const textDisplay = document.getElementById("text");
 const story = [
   "Hey, Vallen.", "Here is something for you.",
   "There are so many days in a lifetime...", "and this one matters a little more.",
   "Because exactly <b>21 years ago</b>,<br>someone special was born.",
   "Someone named<br><b>Vallen Kalonia</b>.", "And today… we celebrate you!",
-  "Happy Birthday, Vallen.", "I’m so glad I get to know you",
-  "May today be a reminder of how much you are valued and how much you matter.",
   "Make a wish.", "Blow the candle.",
+  "Happy Birthday, Vallen.", "I’m so glad I get to know you.",
+  "May today be a reminder of how much you are valued and how much you matter.",
   "I hope this year brings you even more happiness, beautiful memories, and everything you deserve.",
   "And that life surprises you in the best possible ways.",
   "Before this page ends, let me just say something."
@@ -41,13 +39,14 @@ const story = [
 let currentStep = 0; let giftClicks = 0; let isWaiting = false; let isFinal = false;
 
 window.addEventListener("mousedown", (e) => {
-  if (isWaiting || isFinal || countdownBox.style.display !== "none") return;
+  if (isWaiting || isFinal || (countdownBox && countdownBox.style.display !== "none")) return;
   
   if (document.getElementById("intro-section").contains(e.target)) {
     giftClicks++;
     document.getElementById("gift-icon").classList.add("shake");
     setTimeout(() => document.getElementById("gift-icon").classList.remove("shake"), 400);
     confetti({ particleCount: 150, spread: 70, origin: { x: e.clientX/innerWidth, y: e.clientY/innerHeight } });
+    
     if (giftClicks >= 3) {
       isWaiting = true;
       document.getElementById("intro-section").classList.add("fade-out");
@@ -64,7 +63,7 @@ window.addEventListener("mousedown", (e) => {
   
   if (document.getElementById("message-section").style.display === "flex" && e.target.id !== "replayBtn") {
     createRipple(e.clientX, e.clientY);
-    if (currentStep === 11) {
+    if (currentStep === 8) { 
       confetti({ particleCount: 400, spread: 100, origin: { y: 0.6 } });
       isWaiting = true; setTimeout(() => { isWaiting = false; nextStep(); }, 1200);
     } else if (currentStep === story.length - 1) {
@@ -76,11 +75,22 @@ window.addEventListener("mousedown", (e) => {
 });
 
 function renderStep() {
-  isWaiting = true; textDisplay.classList.add("text-hidden");
+  isWaiting = true; 
+  textDisplay.classList.add("text-hidden");
+  
   const cake = document.getElementById("cake-wrapper");
-  if (currentStep === 10 || currentStep === 11) cake.classList.add("show");
-  else cake.classList.remove("show");
-  setTimeout(() => { textDisplay.innerHTML = story[currentStep]; textDisplay.classList.remove("text-hidden"); isWaiting = false; }, 1200);
+  // Kue Fade In di step 7 & 8, selain itu Fade Out
+  if (currentStep === 7 || currentStep === 8) {
+    cake.classList.add("show");
+  } else {
+    cake.classList.remove("show");
+  }
+
+  setTimeout(() => { 
+    textDisplay.innerHTML = story[currentStep]; 
+    textDisplay.classList.remove("text-hidden"); 
+    isWaiting = false; 
+  }, 1200);
 }
 
 function nextStep() { if (currentStep < story.length - 1) { currentStep++; renderStep(); } }
@@ -89,8 +99,6 @@ function startIvorySequence() {
   isFinal = true; stopAllParticles = true;
   clearInterval(particleInterval);
   document.querySelectorAll('.love-particle').forEach(el => el.remove());
-
-  // Perbaikan: Teks fade out perlahan, TANPA ngeblink section-nya
   textDisplay.classList.add("text-hidden");
   
   setTimeout(() => {
@@ -98,7 +106,6 @@ function startIvorySequence() {
     setTimeout(() => {
       document.body.classList.add("ivory-theme");
       document.getElementById("black-overlay").style.opacity = "0";
-      
       textDisplay.innerHTML = ""; 
       textDisplay.classList.remove("text-hidden");
       document.getElementById("cake-wrapper").classList.remove("show");
@@ -112,20 +119,20 @@ function startIvorySequence() {
           setTimeout(() => {
             textDisplay.classList.add("text-hidden");
             setTimeout(() => {
-              textDisplay.innerHTML = '<span class="ivory-text" style="font-weight:600">Happy Birthday, Vallen.</span>';
+              textDisplay.innerHTML = '<span class="ivory-text" style="font-weight:600; font-size: 1.1em;">Happy Birthday, Vallen.</span>';
               textDisplay.classList.remove("text-hidden");
               setTimeout(() => {
                 const btn = document.getElementById("replayBtn");
                 btn.style.display = "inline-block";
-                setTimeout(() => btn.style.opacity = "1", 500);
-              }, 2000);
-            }, 1500);
+                setTimeout(() => btn.style.opacity = "1", 100);
+              }, 1500);
+            }, 1200);
           }, 3000);
         }
       }
       setTimeout(typeText, 1000);
     }, 1800);
-  }, 1200); // Tunggu teks fade out selesai baru hitam
+  }, 1200); 
 }
 
 function createRipple(x, y) {
@@ -146,24 +153,13 @@ particleInterval = setInterval(() => {
 }, 900);
 
 document.getElementById("replayBtn").addEventListener("click", () => {
-  document.body.style.opacity = "0"; // Fade out satu layar penuh
+  document.body.style.opacity = "0"; 
   setTimeout(() => { location.reload(); }, 1500);
 });
 
 window.addEventListener('mousemove', (e) => {
-    countdownBox.style.setProperty('--cursor-x', e.clientX + 'px');
-    countdownBox.style.setProperty('--cursor-y', e.clientY + 'px');
+    if(countdownBox) {
+        countdownBox.style.setProperty('--cursor-x', e.clientX + 'px');
+        countdownBox.style.setProperty('--cursor-y', e.clientY + 'px');
+    }
 });
-
-window.addEventListener('touchmove', (e) => {
-    countdownBox.style.setProperty('--cursor-x', e.touches[0].clientX + 'px');
-    countdownBox.style.setProperty('--cursor-y', e.touches[0].clientY + 'px');
-});
-
-
-
-
-
-
-
-
