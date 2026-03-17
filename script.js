@@ -2,7 +2,9 @@ const countdownBox = document.getElementById("countdown-container");
 const targetDate = new Date("March 11, 2026 14:15:00").getTime();
 let particleInterval;
 let stopAllParticles = false;
+let micStream = null;
 
+// 1. COUNTDOWN LOGIC
 const timer = setInterval(() => {
     const now = new Date().getTime();
     const diff = targetDate - now;
@@ -22,13 +24,14 @@ const timer = setInterval(() => {
     document.getElementById("seconds").innerText = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
 }, 1000);
 
+// 2. STORY CONTENT
 const textDisplay = document.getElementById("text");
 const story = [
   "Hey, Vallen.", "Here is something for you.",
   "There are so many days in a lifetime...", "and this one matters a little more.",
   "Because exactly <b>21 years ago</b>,<br>someone special was born.",
   "Someone named<br><b>Vallen Kalonia</b>.", "And today… we celebrate you!",
-  "Make a wish.", "Blow the candle.",
+  "Make a wish.", "Blow the candle.", // Step 8: Moment Tiup Lilin
   "Happy Birthday, Vallen.", "I’m so glad I get to know you.",
   "May today be a reminder of how much you are valued and how much you matter.",
   "I hope this year brings you even more happiness, beautiful memories, and everything you deserve.",
@@ -38,6 +41,54 @@ const story = [
 
 let currentStep = 0; let giftClicks = 0; let isWaiting = false; let isFinal = false;
 
+// 3. MICROPHONE LOGIC (FOR BLOWING)
+async function initMicrophone() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        micStream = stream;
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const analyser = audioContext.createAnalyser();
+        const microphone = audioContext.createMediaStreamSource(stream);
+        const javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
+
+        analyser.smoothingTimeConstant = 0.8;
+        analyser.fftSize = 1024;
+
+        microphone.connect(analyser);
+        analyser.connect(javascriptNode);
+        javascriptNode.connect(audioContext.destination);
+
+        javascriptNode.onaudioprocess = () => {
+            const array = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(array);
+            let values = 0;
+            for (let i = 0; i < array.length; i++) { values += array[i]; }
+            const average = values / array.length;
+
+            // Jika suara (tiupan) di atas threshold dan sedang di step "Blow the candle"
+            if (average > 60 && currentStep === 8 && !isWaiting) {
+                handleBlowSuccess();
+            }
+        };
+    } catch (err) {
+        console.log("Mic access denied or not supported. Falling back to click.");
+    }
+}
+
+function handleBlowSuccess() {
+    isWaiting = true;
+    document.getElementById("cake").innerText = "🎂"; // Lilin mati (opsional ganti emoji)
+    confetti({ particleCount: 500, spread: 100, origin: { y: 0.6 } });
+    
+    // Matikan mic setelah berhasil tiup
+    if (micStream) {
+        micStream.getTracks().forEach(track => track.stop());
+    }
+
+    setTimeout(() => { isWaiting = false; nextStep(); }, 1500);
+}
+
+// 4. INTERACTION LOGIC
 window.addEventListener("mousedown", (e) => {
   if (isWaiting || isFinal || (countdownBox && countdownBox.style.display !== "none")) return;
   
@@ -54,6 +105,7 @@ window.addEventListener("mousedown", (e) => {
         document.getElementById("intro-section").style.display = "none";
         document.getElementById("message-section").style.display = "flex";
         document.getElementById("bgMusic").play().catch(()=>{});
+        initMicrophone(); // Meminta izin mic saat kado terbuka
         renderStep();
         isWaiting = false;
       }, 800);
@@ -63,9 +115,10 @@ window.addEventListener("mousedown", (e) => {
   
   if (document.getElementById("message-section").style.display === "flex" && e.target.id !== "replayBtn") {
     createRipple(e.clientX, e.clientY);
+    
+    // Fallback: Jika tidak bisa tiup, klik tetap berfungsi untuk lanjut
     if (currentStep === 8) { 
-      confetti({ particleCount: 400, spread: 100, origin: { y: 0.6 } });
-      isWaiting = true; setTimeout(() => { isWaiting = false; nextStep(); }, 1200);
+        handleBlowSuccess();
     } else if (currentStep === story.length - 1) {
       startIvorySequence();
     } else {
@@ -77,14 +130,9 @@ window.addEventListener("mousedown", (e) => {
 function renderStep() {
   isWaiting = true; 
   textDisplay.classList.add("text-hidden");
-  
   const cake = document.getElementById("cake-wrapper");
-  // Kue Fade In di step 7 & 8, selain itu Fade Out
-  if (currentStep === 7 || currentStep === 8) {
-    cake.classList.add("show");
-  } else {
-    cake.classList.remove("show");
-  }
+  if (currentStep === 7 || currentStep === 8) cake.classList.add("show");
+  else cake.classList.remove("show");
 
   setTimeout(() => { 
     textDisplay.innerHTML = story[currentStep]; 
