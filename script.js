@@ -1,5 +1,5 @@
 const countdownBox = document.getElementById("countdown-container");
-const targetDate = new Date("March 11, 2026 14:15:00").getTime();
+const targetDate = new Date("March 12, 2026 14:15:00").getTime();
 let particleInterval;
 let stopAllParticles = false;
 
