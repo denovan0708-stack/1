@@ -1,31 +1,31 @@
 :root {
-  --bg-pink: linear-gradient(135deg, #ffb3c1, #ffcad7, #d4b3f0, #ff99ac, #e2c0ff);
-  --ivory: #fdfaf1;
-  --ivory-dark: #6d5d4b;
-  --cursor-x: 50%;
-  --cursor-y: 50%;
+    --bg-pink: linear-gradient(135deg, #ffb3c1, #ffcad7, #d4b3f0, #ff99ac, #e2c0ff);
+    --ivory: #fdfaf1;
+    --ivory-dark: #6d5d4b;
+    --cursor-x: 50%;
+    --cursor-y: 50%;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
 
 body {
-  height: 100vh; width: 100vw;
-  display: flex; justify-content: center; align-items: center;
-  font-family: 'Alice', serif; 
-  background: var(--bg-pink);
-  background-size: 400% 400%; 
-  animation: abstractGradient 15s ease infinite; 
-  overflow: hidden;
-  transition: opacity 1.5s ease-in-out; 
-  opacity: 1;
+    height: 100vh; width: 100vw;
+    display: flex; justify-content: center; align-items: center;
+    font-family: 'Alice', serif; 
+    background: var(--bg-pink);
+    background-size: 400% 400%; 
+    animation: abstractGradient 15s ease infinite; 
+    overflow: hidden;
+    transition: opacity 1.5s ease-in-out; 
+    opacity: 1;
 }
 
 @keyframes abstractGradient {
-  0% { background-position: 0% 0% }
-  25% { background-position: 100% 50% }
-  50% { background-position: 50% 100% }
-  75% { background-position: 0% 50% }
-  100% { background-position: 0% 0% }
+    0% { background-position: 0% 0% }
+    25% { background-position: 100% 50% }
+    50% { background-position: 50% 100% }
+    75% { background-position: 0% 50% }
+    100% { background-position: 0% 0% }
 }
 
 /* 1. COUNTDOWN PAGE */
@@ -73,25 +73,24 @@ body {
 }
 
 #text-container { 
-    width: 100%; max-width: 600px; min-height: 150px; /* Menjaga ruang teks tetap stabil */
+    width: 100%; max-width: 600px; min-height: 150px; 
     display: flex; flex-direction: column; align-items: center; justify-content: center; 
     padding: 0 25px; text-align: center; 
 }
 
 #text { 
-    font-family: 'Cormorant Upright', serif; font-size: 32px; color: white; 
+    font-family: 'Cormorant Upright', serif; font-size: 28px; color: white; 
     line-height: 1.4; transition: opacity 1.2s ease, transform 1.2s ease, filter 1.2s ease; 
 }
 .text-hidden { opacity: 0 !important; transform: translateY(15px); filter: blur(10px); }
 
-/* --- PERBAIKAN CAKE: PURE FADE IN/OUT TANPA JUMPING --- */
 #cake-wrapper { 
     font-size: 80px; 
     margin-top: 30px; 
     opacity: 0; 
-    visibility: hidden; /* Mencegah klik saat tidak terlihat */
+    visibility: hidden; 
     transition: opacity 1.5s ease, visibility 1.5s; 
-    display: block; /* Tetap di layout tapi transparan */
+    display: block; 
 }
 
 #cake-wrapper.show { 
@@ -102,17 +101,17 @@ body {
 
 /* 3. BUTTON & THEMES */
 .btn-ivory { 
-    font-family: 'Montserrat', sans-serif; padding: 10px 28px; 
+    font-family: 'Montserrat', sans-serif; padding: 12px 30px; 
     border: 1px solid var(--ivory-dark); background: transparent; 
-    color: var(--ivory-dark); border-radius: 2px; font-size: 0.7rem;
+    color: var(--ivory-dark); border-radius: 4px; font-size: 0.8rem;
     text-transform: uppercase; letter-spacing: 3px;
     cursor: pointer; opacity: 0; transition: all 0.8s ease; 
-    display: none; margin-top: 50px;
+    display: none; margin-top: 40px;
 }
 .btn-ivory:hover { background: var(--ivory-dark); color: var(--ivory); }
 
 .ivory-theme { background: var(--ivory) !important; animation: none !important; }
-.ivory-text { color: var(--ivory-dark) !important; opacity: 1 !important; filter: none !important; transform: none !important; transition: opacity 1s ease; }
+.ivory-text { color: var(--ivory-dark) !important; opacity: 1 !important; filter: none !important; transform: none !important; }
 
 /* 4. ANIMATIONS */
 .love-particle { position: fixed; bottom: -50px; pointer-events: none; z-index: 5; animation: loveRise 6s linear forwards; width: 22px; height: 22px; opacity: 0.35; }
