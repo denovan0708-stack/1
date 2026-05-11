@@ -10,7 +10,6 @@ const friendsWishes = [
     { name: "Nama Teman 1", wish: "Happy birthday Vallen! Makin sukses dan bahagia ya!" },
     { name: "Nama Teman 2", wish: "HBD Vallen! All the best for you." },
     { name: "Nama Teman 3", wish: "Selamat ulang tahun! Semoga harimu menyenangkan!" },
-    // Tambahkan lagi seperti format di atas jika perlu
 ];
 
 // Timer Logic
@@ -28,7 +27,7 @@ const timer = setInterval(() => {
             setTimeout(() => { 
                 document.getElementById("intro-section").classList.add("visible"); 
             }, 100);
-        }, 1500); 
+        }, 1000);
         return;
     }
     document.getElementById("days").innerText = Math.floor(diff / 86400000).toString().padStart(2, '0');
@@ -48,7 +47,7 @@ const story = [
     "May today be a reminder of how much you are valued and how much you matter.",
     "I hope this year brings you even more happiness, beautiful memories, and everything you deserve.",
     "And that life surprises you in the best possible ways.",
-    "Before this page ends, let me just say something."
+    "Just know that you are loved by so many. And some of them have a little something they’d like to say..."
 ];
 
 let currentStep = 0; 
@@ -76,7 +75,7 @@ window.addEventListener("click", (e) => {
                 document.getElementById("bgMusic").play().catch(()=>{});
                 renderStep();
                 isWaiting = false;
-            }, 800);
+            }, 500);
         }
         return;
     }
@@ -84,19 +83,19 @@ window.addEventListener("click", (e) => {
     if (document.getElementById("message-section").style.display === "flex" && e.target.id !== "replayBtn") {
         createRipple(e.clientX, e.clientY);
         
-        // Jika sedang menampilkan wishes teman, klik selanjutnya akan memicu Ivory
         if (showingWishes) {
             document.getElementById("friends-wishes-container").style.opacity = "0";
             setTimeout(() => {
                 document.getElementById("friends-wishes-container").style.display = "none";
                 startIvorySequence();
-            }, 800);
+            }, 600);
             return;
         }
 
         if (currentStep === 8) { 
             confetti({ particleCount: 400, spread: 100, origin: { y: 0.6 } });
-            isWaiting = true; setTimeout(() => { isWaiting = false; nextStep(); }, 1200);
+            isWaiting = true; 
+            setTimeout(() => { isWaiting = false; nextStep(); }, 600);
         } else if (currentStep === story.length - 1) {
             showFriendsWishes();
         } else {
@@ -120,7 +119,7 @@ function renderStep() {
         textDisplay.innerHTML = story[currentStep]; 
         textDisplay.classList.remove("text-hidden"); 
         isWaiting = false; 
-    }, 1200);
+    }, 600);
 }
 
 function nextStep() { if (currentStep < story.length - 1) { currentStep++; renderStep(); } }
@@ -133,8 +132,7 @@ function showFriendsWishes() {
     const container = document.getElementById("friends-wishes-container");
     const grid = document.getElementById("wishes-grid");
     
-    // Render isi wishes dari array
-    grid.innerHTML = ""; // Bersihkan dulu
+    grid.innerHTML = ""; 
     friendsWishes.forEach(item => {
         const div = document.createElement("div");
         div.className = "wish-card";
@@ -149,7 +147,7 @@ function showFriendsWishes() {
             container.style.opacity = "1";
             isWaiting = false;
         }, 100);
-    }, 1200);
+    }, 600);
 }
 
 function startIvorySequence() {
@@ -172,7 +170,7 @@ function startIvorySequence() {
             function typeText() {
                 if (charIdx < finalMsg.length) {
                     textDisplay.innerHTML = `<span class="ivory-text">${finalMsg.substring(0, charIdx + 1)}</span>`;
-                    charIdx++; setTimeout(typeText, 110);
+                    charIdx++; setTimeout(typeText, 70); 
                 } else {
                     setTimeout(() => {
                         textDisplay.classList.add("text-hidden");
@@ -183,14 +181,14 @@ function startIvorySequence() {
                                 const btn = document.getElementById("replayBtn");
                                 btn.style.display = "inline-block";
                                 setTimeout(() => btn.style.opacity = "1", 100);
-                            }, 1500);
-                        }, 1200);
-                    }, 3000);
+                            }, 800);
+                        }, 600);
+                    }, 2000);
                 }
             }
-            setTimeout(typeText, 1000);
-        }, 1800);
-    }, 1200); 
+            setTimeout(typeText, 600);
+        }, 800);
+    }, 600); 
 }
 
 function createRipple(x, y) {
@@ -212,7 +210,7 @@ particleInterval = setInterval(() => {
 
 document.getElementById("replayBtn").addEventListener("click", () => {
     document.body.style.opacity = "0"; 
-    setTimeout(() => { location.reload(); }, 1500);
+    setTimeout(() => { location.reload(); }, 1000);
 });
 
 window.addEventListener('mousemove', (e) => {
