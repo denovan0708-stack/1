@@ -99,7 +99,66 @@ body {
     animation: breathing 3s ease-in-out infinite; 
 }
 
-/* 3. BUTTON & THEMES */
+/* 3. FRIENDS WISHES STYLING */
+#friends-wishes-container {
+    width: 90%;
+    max-width: 450px;
+    max-height: 65vh;
+    overflow-y: auto;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 1s ease;
+    z-index: 60;
+    scrollbar-width: none; /* Firefox */
+}
+#friends-wishes-container::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+.wish-title {
+    color: white;
+    font-family: 'Alice', serif;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+}
+
+.wish-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    padding: 18px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.wish-card p {
+    color: white;
+    font-size: 0.95rem;
+    font-style: italic;
+    line-height: 1.5;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.wish-card span {
+    display: block;
+    text-align: right;
+    color: #ffdce3;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
+#scroll-hint {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.7rem;
+    text-align: center;
+    margin-top: 20px;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 1px;
+}
+
+/* 4. BUTTON & THEMES */
 .btn-ivory { 
     font-family: 'Montserrat', sans-serif; padding: 12px 30px; 
     border: 1px solid var(--ivory-dark); background: transparent; 
@@ -113,7 +172,7 @@ body {
 .ivory-theme { background: var(--ivory) !important; animation: none !important; }
 .ivory-text { color: var(--ivory-dark) !important; opacity: 1 !important; filter: none !important; transform: none !important; }
 
-/* 4. ANIMATIONS */
+/* 5. ANIMATIONS */
 .love-particle { position: fixed; bottom: -50px; pointer-events: none; z-index: 5; animation: loveRise 6s linear forwards; width: 22px; height: 22px; opacity: 0.35; }
 .love-particle svg { width: 100%; height: 100%; fill: white; }
 @keyframes loveRise { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: 0.35; } 100% { transform: translateY(-110vh) translateX(var(--sway)); opacity: 0; } }
