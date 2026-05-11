@@ -1,7 +1,17 @@
 const countdownBox = document.getElementById("countdown-container");
-const targetDate = new Date("March 12, 2026 14:15:00").getTime();
+const targetDate = new Date("May 08, 2026 14:35:00").getTime();
 let particleInterval;
 let stopAllParticles = false;
+
+// ---------------------------------------------------------
+// DATA UCAPAN TEMAN (Edit di sini)
+// ---------------------------------------------------------
+const friendsWishes = [
+    { name: "Nama Teman 1", wish: "Happy birthday Vallen! Makin sukses dan bahagia ya!" },
+    { name: "Nama Teman 2", wish: "HBD Vallen! All the best for you." },
+    { name: "Nama Teman 3", wish: "Selamat ulang tahun! Semoga harimu menyenangkan!" },
+    // Tambahkan lagi seperti format di atas jika perlu
+];
 
 // Timer Logic
 const timer = setInterval(() => {
@@ -11,7 +21,7 @@ const timer = setInterval(() => {
     if (diff <= 0) {
         clearInterval(timer);
         countdownBox.style.opacity = "0";
-        countdownBox.style.pointerEvents = "none"; // Agar tidak menghalangi klik
+        countdownBox.style.pointerEvents = "none";
         setTimeout(() => {
             countdownBox.style.display = "none";
             document.getElementById("page").style.display = "flex";
@@ -41,7 +51,11 @@ const story = [
     "Before this page ends, let me just say something."
 ];
 
-let currentStep = 0; let giftClicks = 0; let isWaiting = false; let isFinal = false;
+let currentStep = 0; 
+let giftClicks = 0; 
+let isWaiting = false; 
+let isFinal = false;
+let showingWishes = false;
 
 window.addEventListener("click", (e) => {
     if (isWaiting || isFinal || (countdownBox && countdownBox.style.display !== "none")) return;
@@ -69,11 +83,22 @@ window.addEventListener("click", (e) => {
     
     if (document.getElementById("message-section").style.display === "flex" && e.target.id !== "replayBtn") {
         createRipple(e.clientX, e.clientY);
+        
+        // Jika sedang menampilkan wishes teman, klik selanjutnya akan memicu Ivory
+        if (showingWishes) {
+            document.getElementById("friends-wishes-container").style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById("friends-wishes-container").style.display = "none";
+                startIvorySequence();
+            }, 800);
+            return;
+        }
+
         if (currentStep === 8) { 
             confetti({ particleCount: 400, spread: 100, origin: { y: 0.6 } });
             isWaiting = true; setTimeout(() => { isWaiting = false; nextStep(); }, 1200);
         } else if (currentStep === story.length - 1) {
-            startIvorySequence();
+            showFriendsWishes();
         } else {
             nextStep();
         }
@@ -100,10 +125,38 @@ function renderStep() {
 
 function nextStep() { if (currentStep < story.length - 1) { currentStep++; renderStep(); } }
 
+function showFriendsWishes() {
+    isWaiting = true;
+    showingWishes = true;
+    textDisplay.classList.add("text-hidden");
+    
+    const container = document.getElementById("friends-wishes-container");
+    const grid = document.getElementById("wishes-grid");
+    
+    // Render isi wishes dari array
+    grid.innerHTML = ""; // Bersihkan dulu
+    friendsWishes.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "wish-card";
+        div.innerHTML = `<p>"${item.wish}"</p><span>- ${item.name}</span>`;
+        grid.appendChild(div);
+    });
+
+    setTimeout(() => {
+        textDisplay.style.display = "none";
+        container.style.display = "block";
+        setTimeout(() => {
+            container.style.opacity = "1";
+            isWaiting = false;
+        }, 100);
+    }, 1200);
+}
+
 function startIvorySequence() {
     isFinal = true; stopAllParticles = true;
     clearInterval(particleInterval);
     document.querySelectorAll('.love-particle').forEach(el => el.remove());
+    textDisplay.style.display = "block";
     textDisplay.classList.add("text-hidden");
     
     setTimeout(() => {
