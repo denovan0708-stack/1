@@ -1,8 +1,7 @@
 const countdownBox = document.getElementById("countdown-container");
 const targetDate = new Date("May 13, 2026 00:00:01").getTime();
-let currentStep = 0;
-let isWaiting = false;
-let stopParticles = false;
+let particleInterval;
+let stopAllParticles = false;
 
 const friendsWishes = [
     { 
@@ -43,121 +42,244 @@ const friendsWishes = [
     }
 ];
 
-
-const story = [
-    "Hi, Vallen.", "Here is something for you.",
-    "Because exactly <b>21 years ago</b>,<br>someone special was born.",
-    "Someone named<br><b>Vallen Kalonia</b>.", "Make a wish.", "Blow the candle.",
-    "Happy Birthday, Vallen.", "You are loved by so many...", "And they have something to say..."
-];
-
-const bridging = ["They’ve said it all.", "Be happy.", "Happy Birthday, Vallen."];
-
-// Timer Logic
 const timer = setInterval(() => {
     const now = new Date().getTime();
     const diff = targetDate - now;
+
     if (diff <= 0) {
         clearInterval(timer);
-        countdownBox.style.opacity = "0";
-        setTimeout(() => {
-            countdownBox.style.display = "none";
-            document.getElementById("page").style.display = "flex";
-            document.getElementById("intro-section").classList.add("visible");
-        }, 1000);
-        return;
-    }
-    document.getElementById("days").innerText = Math.floor(diff / 86400000).toString().padStart(2, '0');
-    document.getElementById("hours").innerText = Math.floor((diff % 86400000) / 3600000).toString().padStart(2, '0');
-    document.getElementById("minutes").innerText = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
-    document.getElementById("seconds").innerText = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
-}, 1000);
-
-// Interaction Logic
-let giftClicks = 0;
-window.addEventListener("click", (e) => {
-    if (isWaiting || countdownBox.style.display !== "none") return;
-
-    const intro = document.getElementById("intro-section");
-    if (intro.classList.contains("visible") && e.target.closest("#intro-section")) {
-        giftClicks++;
-        if (giftClicks >= 3) {
-            intro.style.display = "none";
-            document.getElementById("message-section").style.display = "flex";
-            document.getElementById("bgMusic").play().catch(()=>{});
-            renderStep();
+        if (countdownBox) {
+            countdownBox.style.opacity = "0";
+            countdownBox.style.pointerEvents = "none";
+            setTimeout(() => {
+                countdownBox.style.display = "none";
+                const page = document.getElementById("page");
+                if (page) page.style.display = "flex";
+                setTimeout(() => { 
+                    const intro = document.getElementById("intro-section");
+                    if (intro) intro.classList.add("visible"); 
+                }, 100);
+            }, 1000);
         }
         return;
     }
 
-    if (document.getElementById("message-section").style.display === "flex" && !document.getElementById("friends-wishes-container").style.display.includes("flex")) {
-        if (currentStep < story.length - 1) {
-            currentStep++;
-            renderStep();
+    const d = document.getElementById("days");
+    const h = document.getElementById("hours");
+    const m = document.getElementById("minutes");
+    const s = document.getElementById("seconds");
+
+    if (d) d.innerText = Math.floor(diff / 86400000).toString().padStart(2, '0');
+    if (h) h.innerText = Math.floor((diff % 86400000) / 3600000).toString().padStart(2, '0');
+    if (m) m.innerText = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
+    if (s) s.innerText = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
+}, 1000);
+
+const textDisplay = document.getElementById("text");
+const story = [
+    "Hi, Vallen.", "Here is something for you.",
+    "There are so many days in a lifetime...", "and this one matters a little more.",
+    "Because exactly <b>21 years ago</b>,<br>someone special was born.",
+    "Someone named<br><b>Vallen Kalonia</b>.", "And today… we celebrate you!",
+    "Make a wish.", "Blow the candle.",
+    "Happy Birthday, Vallen.", "I’m so glad I get to know you.",
+    "May today be a reminder of how much you are valued and how much you matter.",
+    "I hope this year brings you even more happiness, beautiful memories, and everything you deserve.",
+    "And that life surprises you in the best possible ways.",
+    "Hey.. know that you are loved by so many. And some of them have a little something they’d like to say..."
+];
+
+const bridgingSentences = [
+    "They’ve said it all.",
+    "Nothing more I can wish for you, than all the best.",
+    "And you know it.",
+    "Be happy.",
+    "Blessed in abundant wealth and health, love.",
+    "Thank you for being here.",
+    "Happy Birthday, Vallen."
+];
+
+let currentStep = 0; let giftClicks = 0; let isWaiting = false; let isFinal = false; let showingWishes = false;
+
+window.addEventListener("click", (e) => {
+    if (isWaiting || isFinal || (countdownBox && countdownBox.style.display !== "none")) return;
+    if (showingWishes) return; 
+
+    const intro = document.getElementById("intro-section");
+    if (intro && intro.classList.contains("visible") && intro.contains(e.target)) {
+        giftClicks++;
+        document.getElementById("gift-icon").classList.add("shake");
+        setTimeout(() => document.getElementById("gift-icon").classList.remove("shake"), 400);
+        if (typeof confetti === 'function') {
+            confetti({ particleCount: 150, spread: 70, origin: { x: e.clientX/innerWidth, y: e.clientY/innerHeight } });
+        }
+        if (giftClicks >= 3) {
+            isWaiting = true; intro.classList.add("fade-out");
+            setTimeout(() => {
+                intro.style.display = "none";
+                document.getElementById("message-section").style.display = "flex";
+                const bgMusic = document.getElementById("bgMusic");
+                if (bgMusic) bgMusic.play().catch(()=>{});
+                renderStep(); isWaiting = false;
+            }, 500);
+        }
+        return;
+    }
+
+    const msgSection = document.getElementById("message-section");
+    if (msgSection && msgSection.style.display === "flex" && e.target.id !== "replayBtn" && e.target.id !== "nextToIvoryBtn") {
+        createRipple(e.clientX, e.clientY);
+        if (currentStep === 8) { 
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+            }
+            isWaiting = true; setTimeout(() => { isWaiting = false; nextStep(); }, 600);
+        } else if (currentStep === story.length - 1) {
+            showFriendsWishes();
         } else {
-            showWishes();
+            nextStep();
         }
     }
 });
 
+const nextIvoryBtn = document.getElementById("nextToIvoryBtn");
+if (nextIvoryBtn) {
+    nextIvoryBtn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        isFinal = true; 
+        stopAllParticles = true;
+        clearInterval(particleInterval);
+        document.querySelectorAll('.love-particle').forEach(el => el.remove());
+
+        document.getElementById("friends-wishes-container").style.opacity = "0";
+        const overlay = document.getElementById("black-overlay");
+        if (overlay) overlay.style.opacity = "1";
+        
+        setTimeout(async () => {
+            document.body.classList.add("ivory-theme");
+            document.getElementById("friends-wishes-container").style.display = "none";
+            document.getElementById("cake-wrapper").classList.remove("show");
+            document.getElementById("message-section").style.display = "flex";
+            
+            textDisplay.style.display = "block";
+            textDisplay.innerHTML = "";
+            textDisplay.classList.remove("text-hidden");
+            
+            if (overlay) overlay.style.opacity = "0";
+            await new Promise(r => setTimeout(r, 1500));
+
+            for (let i = 0; i < bridgingSentences.length; i++) {
+                await typeSentence(bridgingSentences[i]);
+                let pause = i === bridgingSentences.length - 2 ? 3000 : 2000; 
+                await new Promise(r => setTimeout(r, pause));
+
+                if (i < bridgingSentences.length - 1) {
+                    textDisplay.classList.add("text-hidden");
+                    await new Promise(r => setTimeout(r, 1500));
+                    textDisplay.innerHTML = "";
+                    textDisplay.classList.remove("text-hidden");
+                    await new Promise(r => setTimeout(r, 800));
+                }
+            }
+
+            setTimeout(() => {
+                const btn = document.getElementById("replayBtn");
+                if (btn) {
+                    btn.style.display = "inline-block";
+                    setTimeout(() => btn.style.opacity = "1", 100);
+                }
+            }, 1000);
+        }, 2200); 
+    });
+}
+
+async function typeSentence(sentence) {
+    let charIdx = 0;
+    return new Promise(resolve => {
+        function type() {
+            if (charIdx < sentence.length) {
+                textDisplay.innerHTML = `<span class="ivory-text">${sentence.substring(0, charIdx + 1)}</span>`;
+                charIdx++;
+                setTimeout(type, 100); 
+            } else {
+                resolve();
+            }
+        }
+        type();
+    });
+}
+
 function renderStep() {
-    isWaiting = true;
-    const txt = document.getElementById("text");
+    isWaiting = true; 
+    if (textDisplay) textDisplay.classList.add("text-hidden");
     const cake = document.getElementById("cake-wrapper");
-    
-    txt.classList.add("text-hidden");
-    if (currentStep === 5) cake.classList.add("show");
-    
-    setTimeout(() => {
-        txt.innerHTML = story[currentStep];
-        txt.classList.remove("text-hidden");
-        isWaiting = false;
+    if (cake) {
+        if (currentStep === 7 || currentStep === 8) cake.classList.add("show");
+        else cake.classList.remove("show");
+    }
+    setTimeout(() => { 
+        if (textDisplay) {
+            textDisplay.innerHTML = story[currentStep]; 
+            textDisplay.classList.remove("text-hidden"); 
+        }
+        isWaiting = false; 
     }, 600);
 }
 
-function showWishes() {
+function nextStep() { if (currentStep < story.length - 1) { currentStep++; renderStep(); } }
+
+function showFriendsWishes() {
+    isWaiting = true; showingWishes = true;
+    if (textDisplay) textDisplay.classList.add("text-hidden");
     const container = document.getElementById("friends-wishes-container");
     const grid = document.getElementById("wishes-grid");
-    grid.innerHTML = friendsWishes.map(i => `<div class="wish-card"><span>${i.name}</span><p>"${i.wish}"</p></div>`).join('');
-    container.style.display = "flex";
-    setTimeout(() => container.style.opacity = "1", 100);
+    if (grid) {
+        grid.innerHTML = ""; 
+        friendsWishes.forEach(item => {
+            const div = document.createElement("div");
+            div.className = "wish-card";
+            // "From: " telah dihapus, langsung nama saja
+            div.innerHTML = `
+                <span>${item.name}</span>
+                <p>"${item.wish.replace(/\n/g, '<br>')}"</p>
+            `;
+            grid.appendChild(div);
+        });
+    }
+    setTimeout(() => {
+        if (textDisplay) textDisplay.style.display = "none";
+        if (container) {
+            container.style.display = "flex";
+            setTimeout(() => { container.style.opacity = "1"; isWaiting = false; }, 100);
+        }
+    }, 600);
 }
 
-document.getElementById("nextToIvoryBtn").addEventListener("click", async (e) => {
-    e.stopPropagation();
-    stopParticles = true;
-    document.getElementById("friends-wishes-container").style.display = "none";
-    document.getElementById("black-overlay").style.opacity = "1";
-    
-    setTimeout(async () => {
-        document.body.classList.add("ivory-theme");
-        document.getElementById("cake-wrapper").classList.remove("show");
-        document.getElementById("black-overlay").style.opacity = "0";
-        const txt = document.getElementById("text");
-        
-        for (let s of bridging) {
-            txt.innerHTML = `<span class="ivory-text">${s}</span>`;
-            txt.classList.remove("text-hidden");
-            await new Promise(r => setTimeout(r, 2500));
-            if (s !== bridging[bridging.length-1]) txt.classList.add("text-hidden");
-            await new Promise(r => setTimeout(r, 1000));
-        }
-        
-        const btn = document.getElementById("replayBtn");
-        btn.style.display = "inline-block";
-        btn.classList.add("btn-dark");
-    }, 2000);
+function createRipple(x, y) {
+    const r = document.createElement("div"); r.className = "ripple";
+    r.style.left = x + "px"; r.style.top = y + "px";
+    document.body.appendChild(r); setTimeout(() => r.remove(), 1000);
+}
+
+particleInterval = setInterval(() => {
+    if (stopAllParticles) return;
+    const heart = document.createElement("div"); heart.className = "love-particle";
+    heart.innerHTML = `<svg viewBox="0 0 32 32"><path d="M16 28.5L13.8 26.4C6.4 19.7 1.5 15.3 1.5 10C1.5 5.6 4.9 2.1 9.3 2.1C11.8 2.1 14.1 3.2 15.8 5.1C17.5 3.2 19.8 2.1 22.3 2.1C26.7 2.1 30.1 5.6 30.1 10C30.1 15.3 25.2 19.7 17.8 26.4L16 28.5Z"/></svg>`;
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.setProperty('--sway', (Math.random() - 0.5) * 300 + "px");
+    document.body.appendChild(heart); setTimeout(() => heart.remove(), 6000);
+}, 900);
+
+const replay = document.getElementById("replayBtn");
+if (replay) {
+    replay.addEventListener("click", () => {
+        document.body.style.opacity = "0"; setTimeout(() => { location.reload(); }, 1000);
+    });
+}
+
+window.addEventListener('mousemove', (e) => {
+    if(countdownBox) {
+        countdownBox.style.setProperty('--cursor-x', e.clientX + 'px');
+        countdownBox.style.setProperty('--cursor-y', e.clientY + 'px');
+    }
 });
-
-// Particles
-setInterval(() => {
-    if (stopParticles) return;
-    const p = document.createElement("div"); p.className = "love-particle";
-    p.innerHTML = `<svg viewBox="0 0 32 32"><path d="M16 28.5L13.8 26.4C6.4 19.7 1.5 15.3 1.5 10C1.5 5.6 4.9 2.1 9.3 2.1C11.8 2.1 14.1 3.2 15.8 5.1C17.5 3.2 19.8 2.1 22.3 2.1C26.7 2.1 30.1 5.6 30.1 10C30.1 15.3 25.2 19.7 17.8 26.4L16 28.5Z"/></svg>`;
-    p.style.left = Math.random() * 100 + "vw";
-    p.style.setProperty('--sway', (Math.random() - 0.5) * 200 + "px");
-    document.body.appendChild(p);
-    setTimeout(() => p.remove(), 6000);
-}, 1000);
-
-document.getElementById("replayBtn").addEventListener("click", () => location.reload());
