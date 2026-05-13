@@ -16,7 +16,7 @@ body {
     background-size: 400% 400%; 
     animation: abstractGradient 15s ease infinite; 
     overflow: hidden;
-    transition: opacity 1.5s ease-in-out; 
+    transition: background 2s ease-in-out, opacity 2s ease-in-out; 
     opacity: 1;
 }
 
@@ -28,19 +28,12 @@ body {
     100% { background-position: 0% 0% }
 }
 
-/* 1. COUNTDOWN PAGE */
 #countdown-container {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: var(--bg-pink); background-size: 400% 400%;
     animation: abstractGradient 15s ease infinite;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     z-index: 20000; text-align: center; transition: opacity 1.5s ease;
-}
-
-#countdown-container::after {
-    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(255,255,255,0.4), transparent 20%);
-    pointer-events: none; mix-blend-mode: overlay;
 }
 
 #countdown-title { color: white; font-family: 'Alice', serif; margin-bottom: 25px; font-size: 1.3rem; letter-spacing: 2px; }
@@ -55,8 +48,11 @@ body {
 }
 .flip-unit label { color: white; font-size: 0.6rem; margin-top: 8px; text-transform: uppercase; font-family: 'Montserrat', sans-serif; }
 
-/* 2. MAIN CONTENT */
-#black-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 1.5s ease; }
+#black-overlay { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background: black; z-index: 9999; opacity: 0; pointer-events: none; 
+    transition: opacity 2s ease-in-out; 
+}
 
 #page { width: 100%; height: 100%; display: none; justify-content: center; align-items: center; position: relative; }
 
@@ -68,113 +64,98 @@ body {
 #hint { margin-top: 15px; font-family: 'Montserrat', sans-serif; color: white; opacity: 0.9; letter-spacing: 1px; font-size: 0.9rem; }
 
 #message-section { 
-    position: relative; z-index: 50; width: 100%; height: 100%; 
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; width: 100%; height: 100%; 
+    display: flex; justify-content: center; align-items: center; 
 }
 
-#text-container { 
-    width: 100%; max-width: 600px; min-height: 150px; 
-    display: flex; flex-direction: column; align-items: center; justify-content: center; 
-    padding: 0 25px; text-align: center; 
+#text-wrapper {
+    position: absolute; width: 90%; max-width: 700px;
+    text-align: center; z-index: 55;
 }
 
 #text { 
     font-family: 'Cormorant Upright', serif; font-size: 28px; color: white; 
-    line-height: 1.4; 
-    /* Durasi transisi dipercepat ke 0.6s agar sinkron */
-    transition: opacity 0.6s ease, transform 0.6s ease, filter 0.6s ease; 
+    line-height: 1.6; transition: opacity 1.5s ease, transform 1.5s ease, filter 1.5s ease; 
 }
-.text-hidden { opacity: 0 !important; transform: translateY(15px); filter: blur(10px); }
+.text-hidden { opacity: 0 !important; transform: translateY(10px); filter: blur(15px); }
 
 #cake-wrapper { 
-    font-size: 80px; 
-    margin-top: 30px; 
-    opacity: 0; 
-    visibility: hidden; 
-    transition: opacity 1.5s ease, visibility 1.5s; 
-    display: block; 
+    position: absolute; bottom: 15%; 
+    font-size: 80px; opacity: 0; visibility: hidden; 
+    transition: opacity 1.5s ease, visibility 1.5s; z-index: 50;
 }
+#cake-wrapper.show { opacity: 1; visibility: visible; animation: breathing 3s ease-in-out infinite; }
 
-#cake-wrapper.show { 
-    opacity: 1; 
-    visibility: visible;
-    animation: breathing 3s ease-in-out infinite; 
-}
-
-/* 3. FRIENDS WISHES STYLING */
 #friends-wishes-container {
-    width: 90%;
-    max-width: 450px;
-    max-height: 65vh;
-    overflow-y: auto;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; justify-content: center; align-items: center;
+    z-index: 100; opacity: 0; transition: opacity 1.5s ease;
     padding: 20px;
-    opacity: 0;
-    transition: opacity 1s ease;
-    z-index: 60;
-    scrollbar-width: none;
-}
-#friends-wishes-container::-webkit-scrollbar { display: none; }
-
-.wish-title {
-    color: white;
-    font-family: 'Alice', serif;
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 1.5rem;
 }
 
-.wish-card {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(8px);
-    padding: 18px;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+.wishes-content-wrapper {
+    width: 100%; max-width: 450px;
+    display: flex; flex-direction: column; align-items: center;
 }
 
-.wish-card p {
-    color: white;
-    font-size: 0.95rem;
-    font-style: italic;
-    line-height: 1.5;
-    font-family: 'Montserrat', sans-serif;
+#wishes-grid {
+    width: 100%; max-height: 55vh; overflow-y: auto;
+    scrollbar-width: none; -ms-overflow-style: none;
+    margin-bottom: 10px;
+}
+#wishes-grid::-webkit-scrollbar { display: none; }
+
+.wish-title { color: white; font-family: 'Alice', serif; text-align: center; margin-bottom: 25px; font-size: 1.5rem; }
+
+.wish-card { 
+    background: rgba(255, 255, 255, 0.15); 
+    backdrop-filter: blur(8px); 
+    padding: 18px; 
+    border-radius: 15px; 
+    margin-bottom: 20px; 
+    border: 1px solid rgba(255, 255, 255, 0.3); 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+    display: flex;
+    flex-direction: column;
 }
 
-.wish-card span {
-    display: block;
-    text-align: right;
-    color: #ffdce3;
-    font-weight: 600;
-    font-size: 0.85rem;
-    margin-top: 10px;
-    text-transform: uppercase;
+.wish-card span { 
+    display: block; 
+    text-align: left; 
+    color: #ffdce3; 
+    font-weight: 600; 
+    font-size: 0.85rem; 
+    margin-bottom: 10px; 
+    text-transform: uppercase; 
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 5px;
 }
 
-#scroll-hint {
-    color: rgba(255,255,255,0.6);
-    font-size: 0.7rem;
-    text-align: center;
-    margin-top: 20px;
-    font-family: 'Montserrat', sans-serif;
-    letter-spacing: 1px;
+.wish-card p { 
+    color: white; 
+    font-size: 0.95rem; 
+    font-style: italic; 
+    line-height: 1.5; 
+    font-family: 'Montserrat', sans-serif; 
 }
 
-/* 4. BUTTON & THEMES */
 .btn-ivory { 
+    position: absolute; bottom: 10%;
     font-family: 'Montserrat', sans-serif; padding: 12px 30px; 
     border: 1px solid var(--ivory-dark); background: transparent; 
     color: var(--ivory-dark); border-radius: 4px; font-size: 0.8rem;
-    text-transform: uppercase; letter-spacing: 3px;
-    cursor: pointer; opacity: 0; transition: all 0.8s ease; 
-    display: none; margin-top: 40px;
+    text-transform: uppercase; letter-spacing: 3px; cursor: pointer; 
+    opacity: 0; transition: all 1.2s ease; display: none; z-index: 110;
 }
+
+#nextToIvoryBtn { border-color: white; color: white; }
+#nextToIvoryBtn:hover { background: white; color: #ff99ac; }
+
 .btn-ivory:hover { background: var(--ivory-dark); color: var(--ivory); }
 
-.ivory-theme { background: var(--ivory) !important; animation: none !important; }
+.ivory-theme { background: var(--ivory) !important; animation: none !important; transition: background 2.5s ease-in-out !important; }
 .ivory-text { color: var(--ivory-dark) !important; opacity: 1 !important; filter: none !important; transform: none !important; }
 
-/* 5. ANIMATIONS */
 .love-particle { position: fixed; bottom: -50px; pointer-events: none; z-index: 5; animation: loveRise 6s linear forwards; width: 22px; height: 22px; opacity: 0.35; }
 .love-particle svg { width: 100%; height: 100%; fill: white; }
 @keyframes loveRise { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: 0.35; } 100% { transform: translateY(-110vh) translateX(var(--sway)); opacity: 0; } }
