@@ -2,8 +2,6 @@
     --bg-pink: linear-gradient(135deg, #ffb3c1, #ffcad7, #d4b3f0, #ff99ac, #e2c0ff);
     --ivory: #fdfaf1;
     --ivory-dark: #6d5d4b;
-    --cursor-x: 50%;
-    --cursor-y: 50%;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
@@ -16,7 +14,6 @@ body {
     background-size: 400% 400%; 
     animation: abstractGradient 15s ease infinite; 
     overflow: hidden;
-    transition: background 2s ease-in-out, opacity 2s ease-in-out; 
     opacity: 1;
 }
 
@@ -57,20 +54,22 @@ body {
 #page { width: 100%; height: 100%; display: none; justify-content: center; align-items: center; position: relative; }
 
 #intro-section { z-index: 100; text-align: center; opacity: 0; transition: opacity 2s ease-in-out; pointer-events: none; }
-#intro-section.visible { opacity: 1; pointer-events: auto; }
+#intro-section.visible { opacity: 1 !important; pointer-events: auto !important; z-index: 999 !important; }
 #intro-section.fade-out { opacity: 0; pointer-events: none; transition: opacity 0.8s ease-in-out; }
 
-#gift-icon { font-size: 120px; user-select: none; cursor: pointer; display: block; margin: 0 auto; }
+#gift-icon { font-size: 120px; user-select: none; cursor: pointer; display: block; margin: 0 auto; padding: 20px; }
 #hint { margin-top: 15px; font-family: 'Montserrat', sans-serif; color: white; opacity: 0.9; letter-spacing: 1px; font-size: 0.9rem; }
 
 #message-section { 
-    position: relative; width: 100%; height: 100%; 
-    display: flex; justify-content: center; align-items: center; 
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+    display: flex; flex-direction: column; justify-content: center; align-items: center; 
 }
 
 #text-wrapper {
-    position: absolute; width: 90%; max-width: 700px;
+    width: 85%; max-width: 700px;
     text-align: center; z-index: 55;
+    /* Memastikan teks selalu di tengah layar secara vertikal */
+    display: flex; justify-content: center; align-items: center;
 }
 
 #text { 
@@ -80,8 +79,8 @@ body {
 .text-hidden { opacity: 0 !important; transform: translateY(10px); filter: blur(15px); }
 
 #cake-wrapper { 
-    position: absolute; bottom: 15%; 
-    font-size: 80px; opacity: 0; visibility: hidden; 
+    position: absolute; bottom: 10%; 
+    font-size: 70px; opacity: 0; visibility: hidden; 
     transition: opacity 1.5s ease, visibility 1.5s; z-index: 50;
 }
 #cake-wrapper.show { opacity: 1; visibility: visible; animation: breathing 3s ease-in-out infinite; }
@@ -108,39 +107,22 @@ body {
 .wish-title { color: white; font-family: 'Alice', serif; text-align: center; margin-bottom: 25px; font-size: 1.5rem; }
 
 .wish-card { 
-    background: rgba(255, 255, 255, 0.15); 
-    backdrop-filter: blur(8px); 
-    padding: 18px; 
-    border-radius: 15px; 
-    margin-bottom: 20px; 
-    border: 1px solid rgba(255, 255, 255, 0.3); 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-    display: flex;
-    flex-direction: column;
+    background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(8px); 
+    padding: 18px; border-radius: 15px; margin-bottom: 20px; 
+    border: 1px solid rgba(255, 255, 255, 0.3); box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+    display: flex; flex-direction: column;
 }
 
 .wish-card span { 
-    display: block; 
-    text-align: left; 
-    color: #ffdce3; 
-    font-weight: 600; 
-    font-size: 0.85rem; 
-    margin-bottom: 10px; 
-    text-transform: uppercase; 
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding-bottom: 5px;
+    display: block; text-align: left; color: #ffdce3; font-weight: 600; 
+    font-size: 0.85rem; margin-bottom: 10px; text-transform: uppercase; 
+    border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px;
 }
 
-.wish-card p { 
-    color: white; 
-    font-size: 0.95rem; 
-    font-style: italic; 
-    line-height: 1.5; 
-    font-family: 'Montserrat', sans-serif; 
-}
+.wish-card p { color: white; font-size: 0.95rem; font-style: italic; line-height: 1.5; font-family: 'Montserrat', sans-serif; }
 
 .btn-ivory { 
-    position: absolute; bottom: 10%;
+    position: absolute; bottom: 8%;
     font-family: 'Montserrat', sans-serif; padding: 12px 30px; 
     border: 1px solid var(--ivory-dark); background: transparent; 
     color: var(--ivory-dark); border-radius: 4px; font-size: 0.8rem;
@@ -166,3 +148,10 @@ body {
 @keyframes breathing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 @keyframes giftShake { 0%, 100% { transform: scale(1); } 25% { transform: rotate(-10deg); } 75% { transform: rotate(10deg); } }
 .shake { animation: giftShake 0.4s ease-in-out; }
+
+/* PENYESUAIAN KHUSUS HP */
+@media (max-width: 600px) {
+    #text { font-size: 22px; }
+    #cake-wrapper { font-size: 60px; bottom: 12%; }
+    #gift-icon { font-size: 100px; }
+}
