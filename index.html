@@ -9,7 +9,6 @@
 </head>
 <body id="body-bg">
 
-    <!-- Countdown Section -->
     <div id="countdown-container">
         <h2 id="countdown-title">The surprise starts in...</h2>
         <div class="flip-clock">
@@ -22,7 +21,6 @@
 
     <div id="black-overlay"></div>
 
-    <!-- Main Content -->
     <div id="page">
         <div id="intro-section">
             <div id="gift-icon">🎁</div>
@@ -30,19 +28,22 @@
         </div>
 
         <div id="message-section" style="display: none;">
-            <div id="text-container">
+            <div id="text-wrapper">
                 <h1 id="text" class="text-hidden"></h1>
-            </div>
-            
-            <div id="friends-wishes-container" style="display: none;">
-                <h3 class="wish-title">From the People Who Cherish You</h3>
-                <div id="wishes-grid"></div>
-                <p id="scroll-hint">Tap anywhere to continue</p>
             </div>
 
             <div id="cake-wrapper">
                 <div id="cake">🎂</div>
             </div>
+
+            <div id="friends-wishes-container" style="display: none;">
+                <div class="wishes-content-wrapper">
+                    <h3 class="wish-title">From the People Who Cherish You</h3>
+                    <div id="wishes-grid"></div>
+                    <button id="nextToIvoryBtn" class="btn-ivory" style="display: inline-block; opacity: 1; position: relative; bottom: 0; margin-top: 20px;">My Turn</button>
+                </div>
+            </div>
+
             <button id="replayBtn" class="btn-ivory">Start Over</button>
         </div>
     </div>
