@@ -4,42 +4,15 @@ let particleInterval;
 let stopAllParticles = false;
 
 const friendsWishes = [
-    { 
-        name: "Metta", 
-        wish: "happy birthday vallenn, congrats akhirnya tahun ini bs spend birthday dgn chill dan ga smbil huru hara eco n jagat ok. semoga tahun ini bisa jd tahun yg semakin baik untuk kau ya vallen, may u always be surrounded by lots of love and good things too. i am very glad that i get to spend another year with having you as my best friend and my good listener all the timeee. thank u for being a good friend for me and being a good person for others, u healed me in many ways i didn't even know i needed, thank u for staying dan denger cerita cerita saya even when it's not my best day to show up. thank you for being the person who i don't really need to text everyday but things will always feel the same, thank you for all the late night talks, all the laughs, and all the growing we've been thru cause how time flies kt tbtb suda smester 6 and i've known u since my first semester of college... having u in my uni life bnr bnr one of my biggest blessing and i hope u also feel the same happiness as i did. im sooo happy to see u being so loved bahkan smpe u show your side yg kt ga biasanya lihat, u truly deserve the world 🥹 semoga semua yg baik baik bisaaa tercapai yaaa tahun ini, hepi hepi selalu dan langgeng langgeng ya sama bestie deno. i always pray that every single good thing will find its way to u. you know u always got my back, i love u more than words can describe even when i look biasa biasa saja tp im very grateful to have u bgt bgt bgt bgt. have a blessed birthday vallen my cuki queen 🤍🤍🤍" 
-    },
-    { 
-        name: "Olin", 
-        wish: "happy birthday yaa BOKeeEEEeEeeemmmm!!\nwishing you all the best selaluuu yaa, semoga all the good things always come to you :-D\nsemoga apapun yg diusahakan selalu lancar...dan semoga bisa jadi ibu dari para hamster yg baik dan amanah biar hamsternya ga mati muda wkwkwkwk\n\nsemoga di umur yg ke-21 ini juga bisa jadi pribadi yang lebih baik lagii dan lebih dewasa, bisa jadi garam dan terang bagi duniaaa, dan always blessed by the grace of God yaaa ;-)\n\nsemoga impian lu juga akan tercapai secepatnya yaa (contoh: mukbang cuwi cuki segede bola voli 🧆🏐) pokoknya di umur 21 ini we're in this together yaaa dlm sempro, ta, dan segala kehectican dunia ini semoga semuanya dilancarinnn dan kita bisa lulus bareng HUHU AMINNnnn" 
-    },
-    { 
-        name: "Kaput", 
-        wish: "Happiest birthday bokem! wishing you nothing but happiness and all the good things in ur life. Thank you for being one of my closest friends. God bless you always <3" 
-    },
-    { 
-        name: "Jordan", 
-        wish: "happy birthdayy vallennn WUATB semoga wardobemu akan full dgn DIOR CHANEL YSL HERMES LV" 
-    },
-    { 
-        name: "Anton", 
-        wish: "Happy birthday Vallen! Makin sukses dan bahagia ya!" 
-    },
-    { 
-        name: "Cillak", 
-        wish: "Happy birthday vikei my bestie my lover🫶🏻 \n\nHappy 21 ya Vallen, YAY udah legalll letsgo to Bali and go to shishi wkwkkwkw\nAlways be happy, healthy and pretty!! \nWishing you all the happiest and good things happen in your legal age ya vikei. Good luck on your TA, semoga km cpt lulus ya sygku🫰🏻🫰🏻\n\nHoping this year brings you nothing but pure joy and amazing new memories. You deserve the world and more. \n\n-love, Cilla" 
-    },
-    { 
-        name: "Stella", 
-        wish: "happy birthday my bestiee Vallenn, ih kt ud tmenan 10 tahun? 11 tahun? ga kerasa kw thun dpn dh lulus ya, smoga tar dpet kerjaan yg oke yaa, dan semoga pnjg umur, sehat selalu, tmbh cantii, hope everything you wish for comes true, and i hope u find someone better than ur ex n treat u well, bcs u deserve it. wish u all the best and God bless. love ya 🫶🏻 cpt jadian 🫵🏻 jgn bestie mulu" 
-    },
-    { 
-        name: "Yos", 
-        wish: "oi hbd palembang cuwi cuki semoga panjang umur sehat selalu semoga udin petot jugo panjang umur yo, semoga kau biso cobain semua cuwi cuki di bumi ni. pokoknyo semoga semua yang disemogakan tersemogakan amin.\n\noiyo semoga cepet jadian la yo kalian kalo biso habis baco ini langsung yo biak gacor." 
-    },
-    { 
-        name: "Stanlee", 
-        wish: "bos palen, habede ya boss, jangan sombong sombong, panjang umur, sehat sehat, langgeng samo deno, jagoi dio jangan dirusaki" 
-    }
+    { name: "Metta", wish: "happy birthday vallenn, congrats akhirnya tahun ini bs spend birthday dgn chill dan ga smbil huru hara eco n jagat ok. semoga tahun ini bisa jd tahun yg semakin baik untuk kau ya vallen, may u always be surrounded by lots of love and good things too. i am very glad that i get to spend another year with having you as my best friend and my good listener all the timeee. thank u for being a good friend for me and being a good person for others, u healed me in many ways i didn't even know i needed, thank u for staying dan denger cerita cerita saya even when it's not my best day to show up. thank you for being the person who i don't really need to text everyday but things will always feel the same, thank you for all the late night talks, all the laughs, and all the growing we've been thru cause how time flies kt tbtb suda smester 6 and i've known u since my first semester of college... having u in my uni life bnr bnr one of my biggest blessing and i hope u also feel the same happiness as i did. im sooo happy to see u being so loved bahkan smpe u show your side yg kt ga biasanya lihat, u truly deserve the world 🥹 semoga semua yg baik baik bisaaa tercapai yaaa tahun ini, hepi hepi selalu dan langgeng langgeng ya sama bestie deno. i always pray that every single good thing will find its way to u. you know u always got my back, i love u more than words can describe even when i look biasa biasa saja tp im very grateful to have u bgt bgt bgt bgt. have a blessed birthday vallen my cuki queen 🤍🤍🤍" },
+    { name: "Olin", wish: "happy birthday yaa BOKeeEEEeEeeemmmm!!\nwishing you all the best selaluuu yaa, semoga all the good things always come to you :-D\nsemoga apapun yg diusahakan selalu lancar...dan semoga bisa jadi ibu dari para hamster yg baik dan amanah biar hamsternya ga mati muda wkwkwkwk\n\nsemoga di umur yg ke-21 ini juga bisa jadi pribadi yang lebih baik lagii dan lebih dewasa, bisa jadi garam dan terang bagi duniaaa, dan always blessed by the grace of God yaaa ;-)\n\nsemoga impian lu juga akan tercapai secepatnya yaa (contoh: mukbang cuwi cuki segede bola voli 🧆🏐) pokoknya di umur 21 ini we're in this together yaaa dlm sempro, ta, dan segala kehectican dunia ini semoga semuanya dilancarinnn dan kita bisa lulus bareng HUHU AMINNnnn" },
+    { name: "Kaput", wish: "Happiest birthday bokem! wishing you nothing but happiness and all the good things in ur life. Thank you for being one of my closest friends. God bless you always <3" },
+    { name: "Jordan", wish: "happy birthdayy vallennn WUATB semoga wardobemu akan full dgn DIOR CHANEL YSL HERMES LV" },
+    { name: "Anton", wish: "Happy birthday Vallen! Makin sukses dan bahagia ya!" },
+    { name: "Cillak", wish: "Happy birthday vikei my bestie my lover🫶🏻 \n\nHappy 21 ya Vallen, YAY udah legalll letsgo to Bali and go to shishi wkwkkwkw\nAlways be happy, healthy and pretty!! \nWishing you all the happiest and good things happen in your legal age ya vikei. Good luck on your TA, semoga km cpt lulus ya sygku🫰🏻🫰🏻\n\nHoping this year brings you nothing but pure joy and amazing new memories. You deserve the world and more. \n\n-love, Cilla" },
+    { name: "Stella", wish: "happy birthday my bestiee Vallenn, ih kt ud tmenan 10 tahun? 11 tahun? ga kerasa kw thun dpn dh lulus ya, smoga tar dpet kerjaan yg oke yaa, dan semoga pnjg umur, sehat selalu, tmbh cantii, hope everything you wish for comes true, and i hope u find someone better than ur ex n treat u well, bcs u deserve it. wish u all the best and God bless. love ya 🫶🏻 cpt jadian 🫵🏻 jgn bestie mulu" },
+    { name: "Yos", wish: "oi hbd palembang cuwi cuki semoga panjang umur sehat selalu semoga udin petot jugo panjang umur yo, semoga kau biso cobain semua cuwi cuki di bumi ni. pokoknyo semoga semua yang disemogakan tersemogakan amin.\n\oiyo semoga cepet jadian la yo kalian kalo biso habis baco ini langsung yo biak gacor." },
+    { name: "Stanlee", wish: "bos palen, habede ya boss, jangan sombong sombong, panjang umur, sehat sehat, langgeng samo deno, jagoi dio jangan dirusaki" }
 ];
 
 const timer = setInterval(() => {
@@ -51,6 +24,7 @@ const timer = setInterval(() => {
         if (countdownBox) {
             countdownBox.style.opacity = "0";
             countdownBox.style.pointerEvents = "none";
+            countdownBox.style.zIndex = "-1";
             setTimeout(() => {
                 countdownBox.style.display = "none";
                 const page = document.getElementById("page");
@@ -150,7 +124,6 @@ if (nextIvoryBtn) {
         stopAllParticles = true;
         clearInterval(particleInterval);
         document.querySelectorAll('.love-particle').forEach(el => el.remove());
-
         document.getElementById("friends-wishes-container").style.opacity = "0";
         const overlay = document.getElementById("black-overlay");
         if (overlay) overlay.style.opacity = "1";
@@ -160,11 +133,9 @@ if (nextIvoryBtn) {
             document.getElementById("friends-wishes-container").style.display = "none";
             document.getElementById("cake-wrapper").classList.remove("show");
             document.getElementById("message-section").style.display = "flex";
-            
             textDisplay.style.display = "block";
             textDisplay.innerHTML = "";
             textDisplay.classList.remove("text-hidden");
-            
             if (overlay) overlay.style.opacity = "0";
             await new Promise(r => setTimeout(r, 1500));
 
@@ -172,7 +143,6 @@ if (nextIvoryBtn) {
                 await typeSentence(bridgingSentences[i]);
                 let pause = i === bridgingSentences.length - 2 ? 3000 : 2000; 
                 await new Promise(r => setTimeout(r, pause));
-
                 if (i < bridgingSentences.length - 1) {
                     textDisplay.classList.add("text-hidden");
                     await new Promise(r => setTimeout(r, 1500));
@@ -181,7 +151,6 @@ if (nextIvoryBtn) {
                     await new Promise(r => setTimeout(r, 800));
                 }
             }
-
             setTimeout(() => {
                 const btn = document.getElementById("replayBtn");
                 if (btn) {
@@ -200,7 +169,7 @@ async function typeSentence(sentence) {
             if (charIdx < sentence.length) {
                 textDisplay.innerHTML = `<span class="ivory-text">${sentence.substring(0, charIdx + 1)}</span>`;
                 charIdx++;
-                setTimeout(type, 100); 
+                setTimeout(type, 80); 
             } else {
                 resolve();
             }
@@ -238,11 +207,7 @@ function showFriendsWishes() {
         friendsWishes.forEach(item => {
             const div = document.createElement("div");
             div.className = "wish-card";
-            // "From: " telah dihapus, langsung nama saja
-            div.innerHTML = `
-                <span>${item.name}</span>
-                <p>"${item.wish.replace(/\n/g, '<br>')}"</p>
-            `;
+            div.innerHTML = `<span>${item.name}</span><p>"${item.wish.replace(/\n/g, '<br>')}"</p>`;
             grid.appendChild(div);
         });
     }
@@ -276,10 +241,3 @@ if (replay) {
         document.body.style.opacity = "0"; setTimeout(() => { location.reload(); }, 1000);
     });
 }
-
-window.addEventListener('mousemove', (e) => {
-    if(countdownBox) {
-        countdownBox.style.setProperty('--cursor-x', e.clientX + 'px');
-        countdownBox.style.setProperty('--cursor-y', e.clientY + 'px');
-    }
-});
